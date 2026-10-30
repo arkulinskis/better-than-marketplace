@@ -1,0 +1,58 @@
+# Better Than Marketplace
+
+A local marketplace for adults where selling takes about 30 seconds: snap a photo with your phone, give it a name, done. No categories, no forms, no fees. Anyone can browse what neighbours sell, sorted by distance; members (18+, with a selling spot) post items, chat with buyers and sellers, save things they like, and mark items reserved or sold. Built on [Anvil](https://anvil.works).
+
+- **App repo:** github.com/arkulinskis/better-than-marketplace (branch `master`). Anvil pulls `master`.
+- **Live:** not published yet (fill in the address once it is).
+
+## What it does
+
+**For everyone (no account needed):**
+- **Landing page:** "Snap it. Name it. Sold.", a phone-camera hero, how it works, a live strip of what's for sale, "why it's better", FAQ.
+- **Browse** (`#browse`, `#browse/<words>`): photo cards with price stickers, nearest first when a spot is known (the member's selling spot, or a spot picked in this browser: map, "use my location" or place search). Filters: Free, Under $20, New today; distance 1-25 km or anywhere; sort nearest / newest / cheapest; search; Show more.
+- **Item** (`#item/<key>`): swipeable photos (tap to zoom), price, area + distance, a ~1 km circle on the map, the seller (member since, sold / for sale), the seller's note, safety tips, more from the seller, Share.
+- **Seller page** (`#seller/<key>`): what they sell now and what they sold in the last 30 days.
+- Sign-up with email, password and **date of birth (18+ only)**, the feedback form, Privacy & Terms (`#legal`).
+
+**For members:**
+- **Sell** (`#sell`): first-time setup (18+ check if needed, "where do you sell from"), then a big camera button. Photos are shrunk on the phone and upload while you type; only a name is required, price is optional (or Free / Make an offer; quick $5-$100 chips), note optional. Confetti, then "Snap the next thing" for rapid posting. `#sell/<key>` edits (photos, cover, name, price, note).
+- **Chats** (`#messages`): one chat per item and buyer, quick replies ("Is it still available?", "Would you take $68?"), live updates every 4 s, unread badge on the Chats tab, All / Buying / Selling.
+- **My stuff** (`#mine`): for sale / reserved / sold with views and chats, one-tap Reserve / Sold / Back on sale, Bump to the top (once a day), edit, delete; Saved items (hearts).
+- Save (heart) anywhere, report a listing, profile with selling spot and public page link.
+
+**For admins** (`#admin`; arkulinskis@gmail.com becomes an admin on first sign-in):
+- **Overview:** people, items for sale, sold, chats, open reports, hidden items, new feedback.
+- **Listings:** every listing (all / reported / hidden / sold, search), hide / show, delete.
+- **Reports:** members' reports with the item; it's fine (un-hide) / hide it / delete it. Three open reports from different people hide an item automatically.
+- **Feedback inbox:** New / Read / Done, private notes.
+- **Users:** search, make admin, disable an account.
+- **Demo data:** 8 fictional sellers around Montréal neighbourhoods with 26 listings (drawn pictures); remove or reload it.
+
+## Setting it up in Anvil (once)
+
+1. In the Anvil editor: **Create app → Clone from GitHub**, and paste `https://github.com/arkulinskis/better-than-marketplace`.
+2. **Users** service: email + password, sign-up allowed (already set in `anvil.yaml`; check it).
+3. Open the app in the editor. If it shows a **Schema Mismatch** alert, choose **"The schema of the source code is correct"** so Anvil creates the tables.
+4. **Run** it and sign up with **arkulinskis@gmail.com** straight away (that account becomes the admin).
+5. **Publish** (Publish → public URL, or your own domain).
+
+## Working on it
+
+See `.claude/skills/betterthanmarketplace/SKILL.md`. In short:
+
+```
+python -I tools/check.py --ui                    # syntax, server tests, headless UI tests → ALL CHECKS PASSED
+python -I tools/preview/devserver.py 8765        # the app on in-memory data: http://localhost:8765/  (?as=ana#browse, ?as=admin#admin)
+python tools/deploy.py                           # dry run (needs PyYAML, so no -I)
+python tools/deploy.py --push "Message"          # deploy: commit + push to GitHub, Anvil pulls it
+```
+
+## Project layout
+
+```
+web/            the interface: core.js/core.css (shared engine + design tokens), app.js (header, footer), pages/*.html
+client_code/    Main.py (the only Anvil form: bridge to the server, sign-in), legal.py
+server_code/    common.py, Accounts.py, Feedback.py, Admin.py, DemoData.py, legal_server.py, and the app's own modules
+assets/         icon.svg + generated PNG icons, pictures (served at _/theme/<name>)
+tools/          sync_to_anvil.py (settings + table schema), deploy.py, check.py, preview/ (dev server, UI tests, screenshots), testing/
+```
