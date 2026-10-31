@@ -3,7 +3,7 @@
 A local marketplace for adults where selling takes about 30 seconds: snap a photo with your phone, give it a name, done. No categories, no forms, no fees. Anyone can browse what neighbours sell, sorted by distance; members (18+, with a selling spot) post items, chat with buyers and sellers, save things they like, and mark items reserved or sold. Built on [Anvil](https://anvil.works).
 
 - **App repo:** github.com/arkulinskis/better-than-marketplace (branch `master`). Anvil pulls `master`.
-- **Live:** not published yet (fill in the address once it is).
+- **Live:** https://bettermart.anvil.app
 
 ## What it does
 
