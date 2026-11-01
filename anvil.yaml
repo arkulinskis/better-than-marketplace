@@ -509,7 +509,7 @@ metadata:
   title: 'Better Than Marketplace: sell stuff nearby in 30 seconds'
 name: Better Than Marketplace
 native_deps:
-  head_html: "<script src=\"_/theme/legal-kit.js?v=f5d46e563e\"></script>\n<!-- seo:start (APP_MAKER/seo: edit seo/apps/betterthanmarketplace.json\
+  head_html: "<script src=\"_/theme/legal-kit.js?v=0fe55615ed\"></script>\n<!-- seo:start (APP_MAKER/seo: edit seo/apps/betterthanmarketplace.json\
     \ and run seo.py, not here) -->\n<link rel=\"canonical\" href=\"https://bettermart.anvil.app/\">\n<meta name=\"robots\"\
     \ content=\"index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1\">\n<meta name=\"keywords\" content=\"\
     sell stuff locally, local marketplace, Facebook Marketplace alternative, Craigslist alternative, sell used items, buy\
