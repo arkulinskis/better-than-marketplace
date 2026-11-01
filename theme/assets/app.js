@@ -1391,20 +1391,29 @@
     bandLead: 'Turn them into someone\'s yes. It takes about 30 seconds.'
   };
 
-  function chair() {
-    var O = 'stroke="#1e1a16" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"';
-    return '<svg viewBox="0 0 400 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="640" fill="#fde7c8"/>' +
-      '<rect y="420" width="400" height="220" fill="#000" opacity=".06"/><ellipse cx="200" cy="424" rx="150" ry="14" fill="#000" opacity=".12"/>' +
-      '<g transform="translate(0 20)"><rect x="112" y="150" width="176" height="180" rx="46" fill="#ffc93c" ' + O + '/><rect x="96" y="288" width="208" height="74" rx="26" fill="#f5ae1e" ' + O + '/>' +
-      '<rect x="66" y="234" width="62" height="140" rx="30" fill="#ffc93c" ' + O + '/><rect x="272" y="234" width="62" height="140" rx="30" fill="#ffc93c" ' + O + '/>' +
-      '<line x1="108" y1="374" x2="98" y2="404" stroke="#1e1a16" stroke-width="10" stroke-linecap="round"/><line x1="292" y1="374" x2="302" y2="404" stroke="#1e1a16" stroke-width="10" stroke-linecap="round"/></g></svg>';
-  }
+  // The hero map: a made-up neighbourhood (tilted street grid, a park, a creek) with things for sale pinned on it,
+  // all within a short walk of the blue dot. Pins sit right of the card on desktop, across the top on phones.
   function heroArt() {
-    return '<div class="lp-art" aria-hidden="true"><div class="lp-phone"><div class="lp-screen">' + chair() +
-      '<div class="lp-finder"></div><div class="lp-name">Yellow armchair<i></i></div><div class="lp-shutter"></div><div class="lp-flash"></div></div></div>' +
-      '<div class="lp-sticker price">' + BTM.tag({ price: 85, price_mode: 'price' }) + '</div>' +
-      '<div class="lp-sticker chat"><small>Ana · 2 min ago</small>Is it still available?</div>' +
-      '<div class="lp-sticker near">' + UI.icon('pin') + '800 m away</div></div>';
+    var streets = '', blocks = '', i, j;
+    for (i = -6; i < 22; i++) streets += '<path d="M' + (i * 120) + ' -200 L' + (i * 120 + 380) + ' 900"/>';
+    for (i = -4; i < 14; i++) streets += '<path d="M-300 ' + (i * 92) + ' L1600 ' + (i * 92 - 200) + '"/>';
+    var map = '<div class="lp-map" aria-hidden="true"><svg viewBox="0 0 1280 640" preserveAspectRatio="xMidYMid slice">' +
+      '<rect width="1280" height="640" fill="var(--land)"/>' +
+      '<path d="M-20 600 C200 560 420 640 640 600 S1080 520 1300 560 L1300 700 L-20 700 Z" fill="var(--water)"/>' +
+      '<path d="M840 110 L1000 70 L1040 190 L880 232 Z" fill="var(--park)"/>' +
+      '<g stroke="var(--casing)" stroke-width="15" fill="none">' + streets + '</g>' +
+      '<g stroke="var(--street)" stroke-width="10" fill="none">' + streets + '</g>' +
+      '<g fill="var(--label)" font-family="inherit" font-size="13" font-weight="700" letter-spacing="2">' +
+        '<text x="880" y="160" transform="rotate(-14 880 160)">PARK</text><text x="1040" y="590" transform="rotate(-6 1040 590)">CREEK</text></g>' +
+      '</svg></div>';
+    var items = [['🪑', { price: 85, price_mode: 'price' }, 62, 30], ['🚲', { price: 40, price_mode: 'price' }, 78, 22], ['🪴', { price_mode: 'free' }, 90, 40],
+                 ['📚', { price: 10, price_mode: 'price' }, 66, 66], ['🎸', { price_mode: 'offer' }, 86, 74], ['🧸', { price: 15, price_mode: 'price' }, 95, 62]];
+    var pins = items.map(function (t, n) {
+      return '<div class="lp-pin' + (n === 0 ? ' hot' : '') + '" style="left:' + t[2] + '%;top:' + t[3] + '%;animation-delay:' + (n * 0.12) + 's"><span class="ph">' + t[0] + BTM.tag(t[1]) + '</span></div>';
+    }).join('');
+    return map + '<div class="lp-pins" aria-hidden="true"><span class="lp-you" style="left:76%;top:50%"></span>' + pins +
+      '<div class="lp-chat" style="left:62%;top:30%"><small>Ana · 800 m away</small>Is it still available?</div></div>' +
+      '<span class="lp-legend" aria-hidden="true">' + UI.icon('pin') + 'For sale within a short walk</span>';
   }
 
   UI.page('landing', { title: 'Snap it. Name it. Sold.' }, function (view, ctx) {
@@ -1413,11 +1422,11 @@
       : '<a class="ui-btn primary lg" href="#auth/signup" data-go="auth/signup">' + esc(C.cta) + ' ' + UI.icon('arrow') + '</a>' +
         '<a class="ui-btn lg" href="#browse" data-go="browse">' + UI.icon('search') + 'See what\'s for sale</a>';
     view.innerHTML =
-      '<section class="lp-hero"><div class="ui-wrap"><div>' +
+      '<section class="lp-hero">' + heroArt() + '<div class="ui-wrap"><div class="lp-card">' +
         '<div class="eyebrow">' + esc(C.eyebrow) + '</div><h1>' + C.title + '</h1><p class="lp-lead">' + esc(C.lead) + '</p>' +
         '<div class="lp-cta">' + primary + '</div>' +
         '<div class="lp-proof">' + C.proof.map(function (p) { return '<span>' + UI.icon('check') + esc(p) + '</span>'; }).join('') + '</div>' +
-      '</div>' + heroArt() + '</div></section>' +
+      '</div></div></section>' +
       '<section class="lp-section" id="how"><div class="ui-wrap"><div class="lp-head"><h2>' + esc(C.stepsTitle) + '</h2><p>' + esc(C.stepsLead) + '</p></div>' +
         '<div class="lp-steps">' + C.steps.map(function (s) { return '<div class="ui-card lp-step"><span class="num">' + UI.icon(s[0]) + '</span><h3>' + esc(s[1]) + '</h3><p class="muted">' + esc(s[2]) + '</p></div>'; }).join('') + '</div></div></section>' +
       '<section class="lp-section lp-strip"><div class="ui-wrap"><div class="lp-live-head"><div><div class="eyebrow" data-live-where>For sale right now</div><h2>Fresh on the curb</h2></div>' +

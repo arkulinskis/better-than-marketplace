@@ -525,48 +525,43 @@ html.ui-dark .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightnes
 
 /* ===== landing.html ===== */
 .page-landing .ui-main { overflow-x: clip; }
-.lp-hero { position: relative; padding: 56px 0 40px; }
-.lp-hero::before { content: ""; position: absolute; right: -10vw; top: -12vw; width: 62vw; height: 62vw; max-width: 760px; max-height: 760px; z-index: 0; border-radius: 50%;
-  background: repeating-conic-gradient(from 0deg, var(--c-accent-soft) 0 10deg, transparent 10deg 20deg); opacity: .9; pointer-events: none; }
-.lp-hero .ui-wrap { position: relative; z-index: 1; display: grid; grid-template-columns: 1.08fr .92fr; gap: 40px; align-items: center; padding-top: 0; padding-bottom: 0; }
-.lp-hero h1 { font-size: clamp(2.7rem, 6.6vw, 5rem); line-height: .98; margin-bottom: 20px; letter-spacing: -.04em; }
+/* Live-map hero: the neighbourhood is the background, things for sale sit on it as photo pins with price tags,
+   you are the blue dot, and the pitch sits in a card on the left. */
+.lp-hero { position: relative; overflow: hidden; border-bottom: 2px solid var(--c-edge); min-height: 600px; display: flex; align-items: center; padding: 48px 0; }
+.lp-map { position: absolute; inset: 0; z-index: 0; --land: #f6ead6; --street: #fffaf1; --casing: #e5d3b5; --park: #d5e8bf; --water: #bfdbe8; --label: #9a8a70; --block: #efdfc4; }
+html.ui-dark .lp-map { --land: #1f1b17; --street: #322c25; --casing: #3d362e; --park: #24301f; --water: #172833; --label: #7d7264; --block: #27221d; }
+.lp-map svg { width: 100%; height: 100%; display: block; }
+.lp-hero .ui-wrap { position: relative; z-index: 2; width: 100%; padding-top: 0; padding-bottom: 0; pointer-events: none; }
+.lp-card { pointer-events: auto; max-width: 540px; background: var(--c-surface); border: 2px solid var(--c-edge); border-radius: calc(var(--radius) + 6px); box-shadow: 6px 6px 0 var(--c-brand); padding: 30px 30px 26px; }
+.lp-hero h1 { font-size: clamp(2.4rem, 5.4vw, 4rem); line-height: .98; margin: 14px 0 16px; letter-spacing: -.04em; }
 .lp-hero h1 em { font-style: normal; color: var(--c-brand-text); position: relative; white-space: nowrap; }
 .lp-hero h1 em::after { content: ""; position: absolute; left: -2%; right: -2%; bottom: .04em; height: .2em; background: var(--c-accent); z-index: -1; transform: rotate(-1.5deg); border-radius: 4px; }
-.lp-lead { font-size: 1.2rem; color: var(--c-muted); max-width: 33em; margin-bottom: 28px; }
+.lp-lead { font-size: 1.08rem; color: var(--c-muted); max-width: 33em; margin-bottom: 22px; }
 .lp-cta { display: flex; gap: 12px; flex-wrap: wrap; }
-.lp-proof { margin-top: 24px; display: flex; gap: 10px; flex-wrap: wrap; }
-.lp-proof span { display: inline-flex; gap: 6px; align-items: center; font-size: .86rem; font-weight: 600; border: 2px solid var(--c-edge); border-radius: 999px; padding: 6px 12px; background: var(--c-surface); }
+.lp-proof { margin-top: 18px; display: flex; gap: 8px; flex-wrap: wrap; }
+.lp-proof span { display: inline-flex; gap: 6px; align-items: center; font-size: .82rem; font-weight: 600; border: 2px solid var(--c-edge); border-radius: 999px; padding: 5px 11px; background: var(--c-surface); }
 .lp-proof .ui-ic { color: var(--c-good); width: 16px; height: 16px; }
-
-/* the hero picture: a phone snapping an armchair, with stickers around it */
-.lp-art { position: relative; width: min(100%, 420px); margin: 0 auto; aspect-ratio: 420 / 520; }
-.lp-phone { position: absolute; left: 14%; top: 2%; width: 64%; height: 96%; background: #1e1a16; border-radius: 38px; padding: 12px; box-shadow: 8px 8px 0 var(--c-brand);
-  transform: rotate(3deg); }
-.lp-screen { position: relative; height: 100%; border-radius: 28px; overflow: hidden; background: #fde7c8; }
-.lp-screen svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.lp-finder { position: absolute; inset: 18% 12% 30% 12%; border: 3px solid rgba(255, 255, 255, .9); border-radius: 14px; }
-.lp-finder::before, .lp-finder::after { content: ""; position: absolute; width: 18px; height: 18px; border: 4px solid #fff; }
-.lp-finder::before { top: -6px; left: -6px; border-right: 0; border-bottom: 0; border-radius: 8px 0 0 0; }
-.lp-finder::after { bottom: -6px; right: -6px; border-left: 0; border-top: 0; border-radius: 0 0 8px 0; }
-.lp-shutter { position: absolute; left: 50%; bottom: 5%; width: 62px; height: 62px; margin-left: -31px; border-radius: 50%; background: #fff; border: 5px solid #1e1a16;
-  box-shadow: 0 0 0 4px #fff; animation: lp-snap 3.2s ease-in-out infinite; }
-.lp-flash { position: absolute; inset: 0; background: #fff; opacity: 0; animation: lp-flash 3.2s ease-out infinite; pointer-events: none; }
-.lp-name { position: absolute; left: 9%; right: 9%; bottom: 20%; background: #fff; border: 2.5px solid #1e1a16; border-radius: 12px; padding: 8px 12px; font: 800 .95rem/1.1 var(--font-display); color: #1e1a16; }
-.lp-name i { display: inline-block; width: 2px; height: 1em; background: #ff5a36; vertical-align: -2px; margin-left: 2px; animation: lp-caret 1s steps(1) infinite; }
-.lp-sticker { position: absolute; z-index: 2; }
-.lp-sticker.price { right: 0; top: 16%; }
-.lp-sticker.price .bt-tag { position: static; font-size: 1.6rem; padding: 9px 16px 9px 30px; transform: rotate(8deg); }
-.lp-sticker.chat { left: -4%; top: 44%; background: var(--c-surface); color: var(--c-ink); border: 2px solid var(--c-edge); border-radius: 16px 16px 16px 4px; padding: 10px 14px;
-  font-weight: 700; font-size: .9rem; box-shadow: 3px 3px 0 var(--c-hard); transform: rotate(-4deg); max-width: 58%; }
-.lp-sticker.chat small { display: block; color: var(--c-muted); font-weight: 600; font-size: .72rem; margin-bottom: 2px; }
-.lp-sticker.near { right: 2%; bottom: 12%; background: var(--c-ink); color: var(--c-bg); border-radius: 999px; padding: 8px 14px; font: 700 .85rem/1 var(--font-body);
-  display: inline-flex; gap: 6px; align-items: center; transform: rotate(-3deg); box-shadow: 3px 3px 0 var(--c-brand); }
-.lp-sticker.near .ui-ic { color: var(--c-accent); }
-.lp-sticker.sold { left: 2%; top: 4%; font: 800 1.2rem/1 var(--font-display); color: #c2352b; border: 4px solid #c2352b; border-radius: 10px; padding: 6px 12px; background: var(--c-surface);
-  transform: rotate(-12deg); letter-spacing: .08em; }
-@keyframes lp-snap { 0%, 70%, 100% { transform: scale(1); } 75% { transform: scale(.86); } }
-@keyframes lp-flash { 0%, 74% { opacity: 0; } 76% { opacity: .85; } 90%, 100% { opacity: 0; } }
-@keyframes lp-caret { 50% { opacity: 0; } }
+/* pins: a little photo card with its price tag, dropped onto the map */
+.lp-pins { position: absolute; inset: 0; z-index: 1; }
+.lp-pin { position: absolute; transform: translate(-50%, -100%); display: grid; justify-items: center; animation: lp-pin-in .5s cubic-bezier(.3, 1.4, .5, 1) both; }
+.lp-pin .ph { position: relative; width: 70px; height: 70px; border-radius: 14px; background: var(--c-surface); border: 2px solid var(--c-edge); box-shadow: 3px 3px 0 var(--c-hard);
+  display: grid; place-items: center; font-size: 2.2rem; }
+.lp-pin .ph .bt-tag { left: 50%; bottom: -12px; transform: translateX(-50%); font-size: .8rem; white-space: nowrap; }
+.lp-pin::after { content: ""; width: 3px; height: 16px; background: var(--c-edge); margin-top: 12px; }
+.lp-pin.hot .ph { animation: lp-bob 2.2s ease-in-out infinite; }
+@keyframes lp-pin-in { from { opacity: 0; transform: translate(-50%, -140%); } }
+@keyframes lp-bob { 50% { transform: translateY(-6px); } }
+.lp-you { position: absolute; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: #2f6fed; border: 3px solid #fff; box-shadow: 0 0 0 2px #1e1a16; }
+.lp-you::before { content: ""; position: absolute; left: 50%; top: 50%; width: 260px; height: 260px; margin: -130px 0 0 -130px; border-radius: 50%;
+  border: 2px dashed #2f6fed; background: rgba(47, 111, 237, .07); animation: lp-radar 3s ease-out infinite; }
+@keyframes lp-radar { 0% { transform: scale(.3); opacity: 1; } 100% { transform: scale(1); opacity: .35; } }
+.lp-chat { position: absolute; transform: translate(-50%, calc(-100% - 120px)); background: var(--c-surface); color: var(--c-ink); border: 2px solid var(--c-edge); border-radius: 16px 16px 16px 4px;
+  padding: 9px 13px; font-weight: 700; font-size: .85rem; box-shadow: 3px 3px 0 var(--c-hard); white-space: nowrap; animation: lp-chat 6s ease-in-out infinite; }
+.lp-chat small { display: block; color: var(--c-muted); font-weight: 600; font-size: .7rem; }
+@keyframes lp-chat { 0%, 15% { opacity: 0; transform: translate(-50%, calc(-100% - 108px)); } 22%, 85% { opacity: 1; transform: translate(-50%, calc(-100% - 120px)); } 92%, 100% { opacity: 0; } }
+.lp-legend { position: absolute; right: 18px; bottom: 14px; z-index: 2; font: 800 .72rem/1 var(--font-body); letter-spacing: .06em; text-transform: uppercase; background: var(--c-ink); color: var(--c-bg);
+  padding: 7px 10px; border-radius: 999px; display: inline-flex; gap: 6px; align-items: center; }
+.lp-legend .ui-ic { width: 14px; height: 14px; color: var(--c-accent); }
 
 .lp-section { padding: 56px 0; }
 .lp-section .ui-wrap { padding-top: 0; padding-bottom: 0; }
@@ -609,9 +604,10 @@ html.ui-dark .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightnes
 .lp-band p { margin: 0; font-weight: 600; }
 .lp-band .ui-btn { background: #1e1a16; color: #fff7ec; border-color: #1e1a16; box-shadow: 3px 3px 0 #fff7ec; }
 @media (max-width: 900px) {
-  .lp-hero { padding-top: 28px; }
-  .lp-hero .ui-wrap { grid-template-columns: 1fr; gap: 26px; }
-  .lp-art { width: min(100%, 340px); }
+  .lp-hero { display: block; min-height: 0; padding: 290px 0 28px; }
+  .lp-map, .lp-pins { bottom: auto; height: 330px; }
+  .lp-card { padding: 22px 18px; box-shadow: 4px 4px 0 var(--c-brand); }
+  .lp-chat, .lp-legend { display: none; }
   .lp-steps { grid-template-columns: 1fr; }
   .lp-step:nth-child(n) { transform: none; }
   .lp-band { padding: 30px 22px; }
@@ -623,7 +619,8 @@ html.ui-dark .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightnes
   .lp-vs-row + .lp-vs-row { margin-top: 8px; }
   .lp-vs-label { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .lp-shutter, .lp-flash, .lp-name i { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .lp-pin, .lp-pin.hot .ph, .lp-you::before, .lp-chat { animation: none; } }
+@media (max-width: 560px) { .lp-pin .ph { width: 54px; height: 54px; font-size: 1.7rem; } }
 
 /* ===== messages.html ===== */
 .ms-wrap { max-width: 1080px; }
