@@ -19,12 +19,14 @@ html .anvil-spinner::after, #loadingSpinner::after {
   content: ""; position: absolute; inset: 14px; border-radius: 16px;
   background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22 width=%2264%22 height=%2264%22%3E%3Cg transform=%22rotate%28-18 32 32%29%22%3E%3Cpath d=%22M22 12 H50 a6 6 0 0 1 6 6 V46 a6 6 0 0 1 -6 6 H22 L8 32 Z%22 fill=%22%23ff5a36%22 stroke=%22%231e1a16%22 stroke-width=%223.5%22 stroke-linejoin=%22round%22/%3E%3Ccircle cx=%2219%22 cy=%2232%22 r=%223.6%22 fill=%22%23fff7ec%22 stroke=%22%231e1a16%22 stroke-width=%223%22/%3E%3Ccircle cx=%2238%22 cy=%2232%22 r=%2210%22 fill=%22%23ffc93c%22 stroke=%22%231e1a16%22 stroke-width=%223.5%22/%3E%3Ccircle cx=%2238%22 cy=%2232%22 r=%224%22 fill=%22%231e1a16%22/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
 }
+/* loader:start flip brand=#ff5a36 (made by APP_MAKER/tools/loaders.py; rerun it instead of editing) */
+html .anvil-spinner, #loadingSpinner { animation: app-flip 1.8s cubic-bezier(.6, 0, .3, 1) infinite; }
 html .anvil-spinner::before, #loadingSpinner::before {
-  content: ""; position: absolute; inset: -7px; border-radius: 32px; border: 3px solid transparent;
-  border-top-color: #ff5a36; border-right-color: #ffc93c; animation: app-turn 1s linear infinite;
+  content: none;
 }
-@keyframes app-turn { to { transform: rotate(360deg); } }
+@keyframes app-flip { 0%, 25% { transform: perspective(400px) rotateY(0); } 75%, 100% { transform: perspective(400px) rotateY(360deg); } }
 @keyframes app-breathe { 50% { transform: scale(.94); } }
+/* loader:end */
 @media (prefers-reduced-motion: reduce) {
   html .anvil-spinner, #loadingSpinner { animation: none; }
   html .anvil-spinner::before, #loadingSpinner::before { animation-duration: 3s; }
