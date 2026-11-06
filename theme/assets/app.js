@@ -432,7 +432,7 @@
         '</div></div>';
     },
     footer: function (me) {
-      return '<div class="ui-footer-in"><div class="ui-footer-brand">' + brand() + '<p class="muted small">' + esc(UI.config.tagline) + '</p>' +
+      return '<div class="ui-footer-in"><div class="ui-footer-brand">' + brand() + '<p class="muted small">' + esc(UI.config.tagline) + '</p><p class="small muted ui-footer-org">Contact developer: <a href="https://arkvital.com" target="_blank" rel="noopener">arkvital.com</a><br>Parent company: <a href="https://addanapp.com" target="_blank" rel="noopener">addanapp.com</a></p>' +
         '<p class="muted small">For people 18 and older. Meet in public, look before you pay.</p></div>' +
         '<div class="ui-footer-links">' +
         '<a href="#browse" data-go="browse">Browse</a>' +
