@@ -82,8 +82,9 @@ def browse(opts=None):
         sort = "new"
     flt = opts.get("filter") if opts.get("filter") in ("all", "free", "under20", "today") else "all"
     words = [w for w in C.text(opts.get("q"), 80).lower().split(" ") if w]
-    offset = opts.get("offset") if isinstance(opts.get("offset"), int) and opts.get("offset") > 0 else 0
-    limit = opts.get("limit") if isinstance(opts.get("limit"), int) and 1 <= opts.get("limit") <= 60 else 24
+    o_offset, o_limit = opts.get("offset"), opts.get("limit")
+    offset: int = o_offset if isinstance(o_offset, int) and o_offset > 0 else 0
+    limit: int = o_limit if isinstance(o_limit, int) and 1 <= o_limit <= 60 else 24
 
     query = {"status": q.any_of(*LIVE), "hidden": False}
     if origin and radius:
@@ -146,7 +147,7 @@ def get_listing(key, opts=None):
         seen = anvil.server.session.get("seen") or []
         if r["key"] not in seen:
             r["views"] = (r["views"] or 0) + 1
-            anvil.server.session["seen"] = (seen + [r["key"]])[-200:]
+            getattr(anvil.server, "session")["seen"] = (seen + [r["key"]])[-200:]
     origin = origin_for(opts, me)
     saved = saved_keys(me)
     out = card(r, me, origin, saved)

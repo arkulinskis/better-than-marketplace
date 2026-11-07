@@ -1,0 +1,31 @@
+<anvil-form layout="Better_Than_Marketplace.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap">
+      <div class="mn-head">
+        <div>
+          <h1>Your stuff</h1>
+          <anvil-component type="Label" name="spot_line" prop:role='["mn-lead"]'></anvil-component>
+        </div>
+        <div class="ui-row">
+          <a class="ui-btn" href="#seller" anvil:name="public_link"><i class="ic ic-user"></i>Your public page</a>
+          <a class="ui-btn primary" href="#sell"><i class="ic ic-camera"></i>Sell something</a>
+        </div>
+      </div>
+      <nav class="mn-stats" aria-label="Your stuff">
+        <a class="ui-card mn-stat" href="#mine/active" anvil:name="t_active"><anvil-component type="Label" name="n_active" prop:role='["mn-num"]'></anvil-component><span>For sale</span></a>
+        <a class="ui-card mn-stat" href="#mine/reserved" anvil:name="t_reserved"><anvil-component type="Label" name="n_reserved" prop:role='["mn-num"]'></anvil-component><span>Reserved</span></a>
+        <a class="ui-card mn-stat" href="#mine/sold" anvil:name="t_sold"><anvil-component type="Label" name="n_sold" prop:role='["mn-num"]'></anvil-component><span>Sold</span></a>
+        <a class="ui-card mn-stat" href="#mine/saved" anvil:name="t_saved"><anvil-component type="Label" name="n_saved" prop:role='["mn-num"]'></anvil-component><span>Saved</span></a>
+      </nav>
+      <anvil-component type="RepeatingPanel" name="rows" prop:item_template="Better_Than_Marketplace.Items.MineRow" prop:role='["mn-list"]'></anvil-component>
+      <anvil-component type="RepeatingPanel" name="saved" prop:item_template="Better_Than_Marketplace.Items.Card" prop:role='["bt-grid"]'></anvil-component>
+      <div class="ui-empty" anvil:name="empty">
+        <anvil-component type="Better_Than_Marketplace.Components.EmptyArt" name="empty_art"></anvil-component>
+        <anvil-component type="Label" name="empty_title" prop:role='["empty-title"]'></anvil-component>
+        <anvil-component type="Label" name="empty_text"></anvil-component>
+        <a class="ui-btn primary" href="#sell" anvil:name="empty_sell"><i class="ic ic-camera"></i>Sell something</a>
+        <a class="ui-btn primary" href="#browse" anvil:name="empty_browse">Browse</a>
+      </div>
+    </div>
+  </anvil-block>
+</anvil-form>

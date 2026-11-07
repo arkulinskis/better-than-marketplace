@@ -1,0 +1,102 @@
+<anvil-form layout="Better_Than_Marketplace.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap">
+      <div class="ui-page-head"><div><h1>Admin</h1><p class="muted">Only admins see this page.</p></div></div>
+      <nav class="ui-tabs" aria-label="Admin">
+        <a href="#admin/overview" anvil:name="tab_overview"><i class="ic ic-grid"></i>Overview</a>
+        <a href="#admin/listings" anvil:name="tab_listings"><i class="ic ic-image"></i>Listings</a>
+        <a href="#admin/reports" anvil:name="tab_reports"><i class="ic ic-shield"></i>Reports</a>
+        <a href="#admin/feedback" anvil:name="tab_feedback"><i class="ic ic-inbox"></i>Feedback</a>
+        <a href="#admin/users" anvil:name="tab_users"><i class="ic ic-users"></i>Users</a>
+        <a href="#admin/demo" anvil:name="tab_demo"><i class="ic ic-database"></i>Demo data</a>
+      </nav>
+
+      <div anvil:name="overview_part">
+        <div class="ad-stats">
+          <a class="ui-card ui-stat ad-stat" href="#admin/users"><anvil-component type="Label" name="s_users" prop:role='["stat-num"]'></anvil-component><span>people signed up</span></a>
+          <a class="ui-card ui-stat ad-stat" href="#admin/listings"><anvil-component type="Label" name="s_listings" prop:role='["stat-num"]'></anvil-component><span>items for sale</span></a>
+          <a class="ui-card ui-stat ad-stat" href="#admin/listings"><anvil-component type="Label" name="s_sold" prop:role='["stat-num"]'></anvil-component><span>sold</span></a>
+          <a class="ui-card ui-stat ad-stat" href="#admin/overview"><anvil-component type="Label" name="s_chats" prop:role='["stat-num"]'></anvil-component><span>chats</span></a>
+          <a class="ui-card ui-stat ad-stat" href="#admin/reports"><anvil-component type="Label" name="s_reports" prop:role='["stat-num"]'></anvil-component><span>open reports</span></a>
+          <a class="ui-card ui-stat ad-stat" href="#admin/listings"><anvil-component type="Label" name="s_hidden" prop:role='["stat-num"]'></anvil-component><span>hidden items</span></a>
+          <a class="ui-card ui-stat ad-stat" href="#admin/feedback"><anvil-component type="Label" name="s_feedback" prop:role='["stat-num"]'></anvil-component><span>new feedback</span></a>
+          <a class="ui-card ui-stat ad-stat" href="#admin/users"><anvil-component type="Label" name="s_admins" prop:role='["stat-num"]'></anvil-component><anvil-component type="Label" name="s_admins_label" prop:role='["fine-print"]'></anvil-component></a>
+        </div>
+        <anvil-component type="Label" name="demo_line" prop:role='["fine-print", "ad-demo-line"]'></anvil-component>
+      </div>
+
+      <div anvil:name="listings_part">
+        <div class="ui-row ad-filter">
+          <div class="ui-seg" role="group" aria-label="Which listings">
+            <anvil-component type="Button" name="w_all" prop:text="All" prop:role='["seg"]'></anvil-component>
+            <anvil-component type="Button" name="w_reported" prop:text="Reported" prop:role='["seg"]'></anvil-component>
+            <anvil-component type="Button" name="w_hidden" prop:text="Hidden" prop:role='["seg"]'></anvil-component>
+            <anvil-component type="Button" name="w_sold" prop:text="Sold" prop:role='["seg"]'></anvil-component>
+          </div>
+          <div class="ui-row ad-search">
+            <anvil-component type="TextBox" name="ls_box" prop:placeholder="Title, area or seller" prop:role='["ad-search-box"]'></anvil-component>
+            <anvil-component type="Button" name="ls_button" prop:text="Search" prop:role='["btn", "ic-search"]'></anvil-component>
+            <anvil-component type="Label" name="ls_count" prop:role='["fine-print"]'></anvil-component>
+          </div>
+        </div>
+        <anvil-component type="RepeatingPanel" name="listings_panel" prop:item_template="Better_Than_Marketplace.Items.AdminListing" prop:role='["ad-ls"]'></anvil-component>
+        <div class="ui-empty" anvil:name="no_listings"><i class="ic ic-image"></i><h2>No listings here</h2></div>
+      </div>
+
+      <div anvil:name="reports_part">
+        <div class="ui-row ad-filter">
+          <div class="ui-seg" role="group" aria-label="Which reports">
+            <anvil-component type="Button" name="r_open" prop:text="Open" prop:role='["seg"]'></anvil-component>
+            <anvil-component type="Button" name="r_done" prop:text="Acted on" prop:role='["seg"]'></anvil-component>
+            <anvil-component type="Button" name="r_dismissed" prop:text="Dismissed" prop:role='["seg"]'></anvil-component>
+          </div>
+          <span class="muted small">Three open reports from different people hide an item until you look.</span>
+        </div>
+        <anvil-component type="RepeatingPanel" name="reports_panel" prop:item_template="Better_Than_Marketplace.Items.ReportRow" prop:role='["ad-ls"]'></anvil-component>
+        <div class="ui-empty" anvil:name="no_reports"><i class="ic ic-shield"></i>
+          <anvil-component type="Label" name="no_reports_title" prop:role='["empty-title"]'></anvil-component>
+          <p>When members report an item, it shows up here.</p>
+        </div>
+      </div>
+
+      <div anvil:name="feedback_part">
+        <div class="ui-row ad-filter">
+          <div class="ui-seg" role="group" aria-label="Which messages">
+            <anvil-component type="Button" name="f_new" prop:text="New" prop:role='["seg"]'></anvil-component>
+            <anvil-component type="Button" name="f_read" prop:text="Read" prop:role='["seg"]'></anvil-component>
+            <anvil-component type="Button" name="f_done" prop:text="Done" prop:role='["seg"]'></anvil-component>
+            <anvil-component type="Button" name="f_all" prop:text="All" prop:role='["seg"]'></anvil-component>
+          </div>
+        </div>
+        <anvil-component type="RepeatingPanel" name="feedback_panel" prop:item_template="Better_Than_Marketplace.Items.FeedbackRow" prop:role='["ad-fb"]'></anvil-component>
+        <div class="ui-empty" anvil:name="no_feedback">
+          <i class="ic ic-inbox"></i>
+          <h2>No messages here</h2>
+          <p>New feedback goes to Prepsto (prepsto.com). Older messages and requests from the app show up here.</p>
+        </div>
+      </div>
+
+      <div anvil:name="users_part">
+        <div class="ui-row ad-search">
+          <anvil-component type="TextBox" name="search_box" prop:placeholder="Search by name or email" prop:role='["ad-search-box"]'></anvil-component>
+          <anvil-component type="Button" name="search_button" prop:text="Search" prop:role='["btn", "ic-search"]'></anvil-component>
+          <anvil-component type="Label" name="users_count" prop:role='["fine-print"]'></anvil-component>
+        </div>
+        <div class="ad-table ad-users-head"><b>Name</b><b>Email</b><b>Joined</b><b>Admin</b><b>Active</b></div>
+        <anvil-component type="RepeatingPanel" name="users_panel" prop:item_template="Better_Than_Marketplace.Items.UserRow"></anvil-component>
+      </div>
+
+      <div anvil:name="demo_part">
+        <div class="ui-card ui-narrow ad-demo">
+          <h2 class="pf-h">Demo data</h2>
+          <p class="muted">Example people and content, so the app never looks empty for the first visitors. Demo rows are flagged, so removing them never touches real data. Once removed, it stays removed until you load it again.</p>
+          <anvil-component type="Label" name="demo_status"></anvil-component>
+          <div class="ui-row">
+            <anvil-component type="Button" name="demo_load_button" prop:text="Load demo data" prop:role='["btn", "btn-primary", "ic-refresh"]'></anvil-component>
+            <anvil-component type="Button" name="demo_remove_button" prop:text="Remove demo data" prop:role='["btn", "btn-danger", "ic-trash"]'></anvil-component>
+          </div>
+        </div>
+      </div>
+    </div>
+  </anvil-block>
+</anvil-form>

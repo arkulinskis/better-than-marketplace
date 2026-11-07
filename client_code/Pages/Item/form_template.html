@@ -1,0 +1,131 @@
+<anvil-form layout="Better_Than_Marketplace.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap">
+      <div class="ui-narrow" anvil:name="missing">
+        <div class="ui-empty">
+          <anvil-component type="Better_Than_Marketplace.Components.EmptyArt" name="missing_art"></anvil-component>
+          <anvil-component type="Label" name="missing_title" prop:role='["empty-title"]'></anvil-component>
+          <p>It may have been sold or taken down.</p>
+          <a class="ui-btn primary" href="#browse">Browse what's for sale</a>
+        </div>
+      </div>
+
+      <div anvil:name="found">
+        <anvil-component type="Button" name="back_button" prop:text="Back" prop:role='["btn", "btn-ghost", "btn-sm", "ic-back", "it-back"]'></anvil-component>
+        <div class="it-grid">
+          <div>
+            <div class="it-gallery">
+              <div class="it-strip" anvil:dom-node="strip" tabindex="0" aria-label="Photos">
+                <anvil-component type="RepeatingPanel" name="photos" prop:item_template="Better_Than_Marketplace.Items.Photo" prop:role='["contents"]'></anvil-component>
+              </div>
+              <div class="it-sold" anvil:name="sold_stamp"><span>SOLD</span></div>
+              <div class="it-dots" anvil:name="dots_box" aria-hidden="true">
+                <anvil-component type="RepeatingPanel" name="dots" prop:item_template="Better_Than_Marketplace.Items.Dot" prop:role='["contents"]'></anvil-component>
+              </div>
+              <anvil-component type="Button" name="prev_button" prop:text="Previous photo" prop:role='["btn", "btn-icon", "ic-back", "it-arrow", "it-arrow-l"]'></anvil-component>
+              <anvil-component type="Button" name="next_button" prop:text="Next photo" prop:role='["btn", "btn-icon", "ic-arrow", "it-arrow", "it-arrow-r"]'></anvil-component>
+            </div>
+            <div class="it-thumbs" anvil:name="thumbs_box">
+              <anvil-component type="RepeatingPanel" name="thumbs" prop:item_template="Better_Than_Marketplace.Items.Thumb" prop:role='["contents"]'></anvil-component>
+            </div>
+          </div>
+
+          <div class="it-info it-stack">
+            <div>
+              <div class="ui-row">
+                <anvil-component type="Label" name="tag" prop:role='["tag"]'></anvil-component>
+                <anvil-component type="Label" name="reserved" prop:text="Reserved" prop:role='["badge", "badge-ink"]' prop:visible="false"></anvil-component>
+                <anvil-component type="Label" name="demo" prop:text="Demo" prop:role='["badge"]' prop:visible="false"></anvil-component>
+              </div>
+              <anvil-component type="Label" name="title" prop:role='["it-title"]'></anvil-component>
+              <div class="it-meta">
+                <span><i class="ic ic-pin"></i><anvil-component type="Label" name="where"></anvil-component></span>
+                <span><i class="ic ic-clock"></i><anvil-component type="Label" name="posted"></anvil-component></span>
+              </div>
+              <div class="it-actions" anvil:name="actions">
+                <button type="button" class="bt-heart it-save" anvil:name="save_btn" anvil:on-dom:click="self.save_click" aria-pressed="false"><svg class="ui-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span data-save-label>Save</span></button>
+                <anvil-component type="Button" name="share_button" prop:text="Share" prop:role='["btn", "ic-external"]'></anvil-component>
+                <anvil-component type="Button" name="report_button" prop:text="Report" prop:role='["btn", "btn-ghost", "ic-info"]'></anvil-component>
+              </div>
+            </div>
+
+            <div class="ui-card it-owner" anvil:name="owner_box">
+              <h2 class="it-box-title">This is your item</h2>
+              <anvil-component type="Label" name="hidden_note" prop:role='["msg-error"]' prop:visible="false"></anvil-component>
+              <div class="it-stats">
+                <anvil-component type="Label" name="views" prop:role='["it-stat"]'></anvil-component>
+                <anvil-component type="Label" name="chats" prop:role='["it-stat"]'></anvil-component>
+              </div>
+              <div class="ui-seg it-status" role="group" aria-label="Status">
+                <button type="button" anvil:name="st_active" data-status="active" anvil:on-dom:click="self.status_click">For sale</button>
+                <button type="button" anvil:name="st_reserved" data-status="reserved" anvil:on-dom:click="self.status_click">Reserved</button>
+                <button type="button" anvil:name="st_sold" data-status="sold" anvil:on-dom:click="self.status_click">Sold</button>
+              </div>
+              <div class="ui-row it-owner-acts">
+                <a class="ui-btn primary" href="#sell" anvil:name="edit_link"><i class="ic ic-edit"></i>Edit</a>
+                <anvil-component type="Button" name="bump_button" prop:text="Bump to top" prop:role='["btn", "ic-refresh"]'></anvil-component>
+                <anvil-component type="Button" name="owner_share" prop:text="Share" prop:role='["btn", "ic-external"]'></anvil-component>
+                <anvil-component type="Button" name="delete_button" prop:text="Delete" prop:role='["btn", "btn-danger", "ic-trash"]'></anvil-component>
+              </div>
+              <p class="ui-hint" anvil:name="bump_hint">You can bump an item back to the top once a day.</p>
+            </div>
+
+            <div class="ui-card soft" anvil:name="sold_box">
+              <h2 class="it-box-title">This one found a new home</h2>
+              <p class="muted">It's sold. <a href="#seller" anvil:name="sold_link">See what else they're selling</a>.</p>
+            </div>
+
+            <div class="ui-card it-ask" anvil:name="join_box">
+              <h2 class="it-box-title">Interested?</h2>
+              <anvil-component type="Label" name="join_text" prop:role='["fine-print"]'></anvil-component>
+              <anvil-component type="Button" name="join_button" prop:text="Join to message the seller" prop:role='["btn", "btn-primary", "btn-block", "ic-chat"]'></anvil-component>
+              <p class="ui-hint it-center">Have an account? <a href="#auth" anvil:name="signin_link" anvil:on-dom:click="self.signin_click">Sign in</a></p>
+            </div>
+
+            <div class="ui-card it-ask" anvil:name="ask_box">
+              <anvil-component type="Label" name="ask_title" prop:role='["it-box-title"]'></anvil-component>
+              <p class="small muted it-has-chat" anvil:name="has_chat">You already have a chat about this. <a href="#messages" anvil:name="chat_link">Open it</a></p>
+              <anvil-component type="RepeatingPanel" name="quick" prop:item_template="Better_Than_Marketplace.Items.QuickChip" prop:role='["it-quick"]'></anvil-component>
+              <anvil-component type="TextArea" name="message_box" prop:placeholder="Write a message…"></anvil-component>
+              <anvil-component type="Button" name="send_button" prop:text="Send" prop:role='["btn", "btn-primary", "btn-block", "ic-chat", "it-send"]'></anvil-component>
+            </div>
+
+            <div class="ui-card soft" anvil:name="note_box">
+              <anvil-component type="Label" name="note_title" prop:role='["it-box-title"]'></anvil-component>
+              <anvil-component type="Label" name="note" prop:role='["it-note"]'></anvil-component>
+            </div>
+
+            <div class="ui-card soft">
+              <a class="it-seller" href="#seller" anvil:name="seller_link">
+                <anvil-component type="Label" name="seller_initials" prop:role='["avatar-lg"]'></anvil-component>
+                <span class="it-seller-text">
+                  <anvil-component type="Label" name="seller_name" prop:role='["strong"]'></anvil-component>
+                  <anvil-component type="Label" name="seller_facts" prop:role='["fine-print"]'></anvil-component>
+                </span>
+                <i class="ic ic-arrow"></i>
+              </a>
+              <div anvil:name="map_box">
+                <anvil-component type="Better_Than_Marketplace.Components.AreaMap" name="area_map"></anvil-component>
+                <anvil-component type="Label" name="map_hint" prop:role='["fine-print", "it-map-hint"]'></anvil-component>
+              </div>
+            </div>
+
+            <div class="ui-card it-safe" anvil:name="safe_box">
+              <h2 class="it-box-title"><i class="ic ic-shield"></i> Meet safely</h2>
+              <ul>
+                <li>Meet in a public place in daylight, or bring a friend.</li>
+                <li>Look at the item before you pay. Never pay in advance.</li>
+                <li>Keep the chat here: we never ask for your password or card.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <section class="bt-section" anvil:name="more_box">
+          <anvil-component type="Label" name="more_title" prop:role='["sec-title"]'></anvil-component>
+          <anvil-component type="RepeatingPanel" name="more" prop:item_template="Better_Than_Marketplace.Items.Card" prop:role='["bt-grid"]'></anvil-component>
+        </section>
+      </div>
+    </div>
+  </anvil-block>
+</anvil-form>

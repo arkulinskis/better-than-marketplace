@@ -1,0 +1,46 @@
+<anvil-form layout="Better_Than_Marketplace.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap">
+      <div class="ui-narrow" anvil:name="missing">
+        <div class="ui-empty">
+          <anvil-component type="Better_Than_Marketplace.Components.EmptyArt" name="missing_art"></anvil-component>
+          <anvil-component type="Label" name="missing_title" prop:role='["empty-title"]'></anvil-component>
+          <p>The link may be old, or they closed their account.</p>
+          <a class="ui-btn primary" href="#browse">Browse</a>
+        </div>
+      </div>
+      <div anvil:name="found">
+        <div class="ui-card sp-head">
+          <anvil-component type="Label" name="initials" prop:role='["avatar-xl"]'></anvil-component>
+          <div class="sp-who">
+            <anvil-component type="Label" name="name" prop:role='["sp-name"]'></anvil-component>
+            <div class="sp-facts">
+              <span class="sp-fact" anvil:name="area_box"><i class="ic ic-pin"></i><anvil-component type="Label" name="area"></anvil-component></span>
+              <span class="sp-fact"><i class="ic ic-calendar"></i><anvil-component type="Label" name="since"></anvil-component></span>
+              <span class="sp-fact"><i class="ic ic-check"></i><anvil-component type="Label" name="sold_count"></anvil-component></span>
+              <span class="sp-fact"><i class="ic ic-grid"></i><anvil-component type="Label" name="active_count"></anvil-component></span>
+              <span class="sp-fact" anvil:name="demo_box">Demo seller</span>
+            </div>
+          </div>
+          <div class="ui-row" anvil:name="mine_box">
+            <span class="muted small">This is how others see your page.</span>
+            <a class="ui-btn primary" href="#sell"><i class="ic ic-camera"></i>Sell something</a>
+          </div>
+        </div>
+        <section class="bt-section">
+          <anvil-component type="Label" name="selling_title" prop:role='["sec-title"]'></anvil-component>
+          <anvil-component type="RepeatingPanel" name="items" prop:item_template="Better_Than_Marketplace.Items.Card" prop:role='["bt-grid"]'></anvil-component>
+          <div class="ui-empty" anvil:name="items_empty">
+            <anvil-component type="Better_Than_Marketplace.Components.EmptyArt" name="items_art"></anvil-component>
+            <h3>Nothing for sale right now</h3>
+            <anvil-component type="Label" name="items_empty_text"></anvil-component>
+          </div>
+        </section>
+        <section class="bt-section" anvil:name="sold_box">
+          <h2 class="sec-h2">Sold lately</h2>
+          <anvil-component type="RepeatingPanel" name="sold" prop:item_template="Better_Than_Marketplace.Items.Card" prop:role='["bt-grid"]'></anvil-component>
+        </section>
+      </div>
+    </div>
+  </anvil-block>
+</anvil-form>

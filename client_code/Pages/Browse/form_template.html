@@ -1,0 +1,45 @@
+<anvil-form layout="Better_Than_Marketplace.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap">
+      <div class="br-head">
+        <div>
+          <h1 anvil:name="title_member">What are your <em>neighbours</em> selling?</h1>
+          <h1 anvil:name="title_guest">Good stuff, <em>close by</em></h1>
+          <anvil-component type="Label" name="lead" prop:role='["br-lead"]'></anvil-component>
+        </div>
+        <anvil-component type="Button" name="where_button" prop:role='["bt-pill", "ic-pin"]' prop:text="Set your spot for distances"></anvil-component>
+      </div>
+      <div class="br-join" anvil:name="join_box">
+        <p>Snap a photo, give it a name, and it's for sale. Join free to sell and message sellers (18+).</p>
+        <a class="ui-btn primary sm" href="#auth/signup">Join free</a>
+      </div>
+      <div class="br-search" role="search">
+        <anvil-component type="TextBox" name="search_box" prop:placeholder="Search: lamp, bike, free books…"></anvil-component>
+        <anvil-component type="Button" name="search_button" prop:text="Search" prop:role='["btn", "ic-search"]'></anvil-component>
+      </div>
+      <div class="br-chips">
+        <anvil-component type="Button" name="f_all" prop:text="Everything" prop:role='["chip"]'></anvil-component>
+        <anvil-component type="Button" name="f_free" prop:text="Free" prop:role='["chip"]'></anvil-component>
+        <anvil-component type="Button" name="f_under20" prop:text="Under $20" prop:role='["chip"]'></anvil-component>
+        <anvil-component type="Button" name="f_today" prop:text="New today" prop:role='["chip"]'></anvil-component>
+        <anvil-component type="DropDown" name="radius_box" prop:role='["chip-select"]'></anvil-component>
+        <anvil-component type="DropDown" name="sort_box" prop:role='["chip-select"]'></anvil-component>
+        <anvil-component type="Label" name="count" prop:role='["br-count"]'></anvil-component>
+      </div>
+      <anvil-component type="RepeatingPanel" name="results" prop:item_template="Better_Than_Marketplace.Items.Card" prop:role='["bt-grid"]'></anvil-component>
+      <div class="ui-empty" anvil:name="empty">
+        <anvil-component type="Better_Than_Marketplace.Components.EmptyArt" name="empty_art"></anvil-component>
+        <anvil-component type="Label" name="empty_title" prop:role='["empty-title"]'></anvil-component>
+        <anvil-component type="Label" name="empty_text"></anvil-component>
+        <div class="ui-row br-empty-acts">
+          <anvil-component type="Button" name="widen_button" prop:text="Show within 25 km" prop:role='["btn"]'></anvil-component>
+          <anvil-component type="Button" name="clear_button" prop:text="Clear filters" prop:role='["btn"]'></anvil-component>
+          <a class="ui-btn primary" href="#sell"><i class="ic ic-camera"></i>Sell something</a>
+        </div>
+      </div>
+      <div class="br-more" anvil:name="more_box">
+        <anvil-component type="Button" name="more_button" prop:text="Show more" prop:role='["btn"]'></anvil-component>
+      </div>
+    </div>
+  </anvil-block>
+</anvil-form>

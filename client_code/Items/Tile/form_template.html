@@ -1,0 +1,7 @@
+<div class="sl-tile">
+  <button type="button" class="sl-tile-pick" anvil:name="pick" anvil:on-dom:click="self.pick_click"><img alt="" anvil:dom-node="img"></button>
+  <anvil-component type="Label" name="cover" prop:text="Cover" prop:role='["badge", "badge-accent", "sl-cover"]' prop:visible="false"></anvil-component>
+  <button type="button" class="sl-x" anvil:name="remove" anvil:on-dom:click="self.remove_click" aria-label="Remove photo"><i class="ic ic-x"></i></button>
+  <div class="sl-state" anvil:name="busy"><span class="sl-ring" aria-hidden="true"></span><span class="ui-sr">Uploading</span></div>
+  <button type="button" class="sl-state err" anvil:name="failed" anvil:on-dom:click="self.retry_click">Didn't upload.<br>Tap to retry</button>
+</div>

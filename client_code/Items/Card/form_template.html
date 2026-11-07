@@ -1,0 +1,22 @@
+<div class="bt-card-host">
+  <article class="bt-card" anvil:name="card">
+    <a class="bt-link" anvil:name="link" href="#item"></a>
+    <div class="bt-ph">
+      <img alt="" loading="lazy" decoding="async" anvil:dom-node="img">
+      <div class="bt-stamp" anvil:name="stamp"><span>SOLD</span></div>
+      <anvil-component type="Label" name="tag" prop:role='["tag"]'></anvil-component>
+      <anvil-component type="Label" name="ribbon" prop:role='["ribbon", "badge"]' prop:visible="false"></anvil-component>
+      <span class="bt-count" anvil:name="count_box"><i class="ic ic-image"></i><anvil-component type="Label" name="count"></anvil-component></span>
+      <button type="button" class="bt-heart" anvil:name="heart" anvil:on-dom:click="self.heart_click" aria-pressed="false" aria-label="Save"><svg class="ui-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>
+    </div>
+    <div class="bt-body">
+      <anvil-component type="Label" name="title" prop:role='["bt-title"]' bind:text="self.item['title']"></anvil-component>
+      <div class="bt-meta">
+        <span anvil:name="where_box"><i class="ic ic-pin"></i><anvil-component type="Label" name="where"></anvil-component></span>
+        <anvil-component type="Label" name="when"></anvil-component>
+        <anvil-component type="Label" name="yours" prop:text="Yours" prop:role='["badge", "badge-accent"]' prop:visible="false"></anvil-component>
+        <anvil-component type="Label" name="demo" prop:text="Demo" prop:role='["badge"]' prop:visible="false"></anvil-component>
+      </div>
+    </div>
+  </article>
+</div>
