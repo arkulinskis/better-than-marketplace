@@ -1,0 +1,22 @@
+<div class="ui-card mn-row">
+  <a href="#item" anvil:name="pic_link" tabindex="-1" aria-hidden="true"><img alt="" anvil:dom-node="img"><span class="ph" anvil:name="ph"></span></a>
+  <div class="mn-main">
+    <h2 class="mn-title"><a href="#item" anvil:name="title_link"></a></h2>
+    <div class="facts">
+      <anvil-component type="Label" name="tag" prop:role='["tag", "tag-inline"]'></anvil-component>
+      <span><i class="ic ic-star"></i><anvil-component type="Label" name="views"></anvil-component></span>
+      <span><i class="ic ic-chat"></i><anvil-component type="Label" name="chats"></anvil-component></span>
+      <span><i class="ic ic-clock"></i><anvil-component type="Label" name="when"></anvil-component></span>
+      <anvil-component type="Label" name="hidden" prop:text="Hidden" prop:role='["badge", "badge-bad"]' prop:visible="false"></anvil-component>
+    </div>
+  </div>
+  <div class="mn-acts">
+    <anvil-component type="Button" name="reserve_button" prop:text="Reserve" prop:role='["btn", "btn-sm"]'></anvil-component>
+    <anvil-component type="Button" name="unreserve_button" prop:text="Back on sale" prop:role='["btn", "btn-sm"]'></anvil-component>
+    <anvil-component type="Button" name="sold_button" prop:text="Sold" prop:role='["btn", "btn-sm", "btn-accent", "ic-check"]'></anvil-component>
+    <anvil-component type="Button" name="again_button" prop:text="Sell again" prop:role='["btn", "btn-sm"]'></anvil-component>
+    <anvil-component type="Button" name="bump_button" prop:text="Bump" prop:role='["btn", "btn-sm", "ic-refresh"]' prop:tooltip="Back to the top of the feed"></anvil-component>
+    <a class="ui-btn sm ghost icon" href="#sell" anvil:name="edit_link"><i class="ic ic-edit"></i></a>
+    <anvil-component type="Button" name="delete_button" prop:text="Delete" prop:role='["btn", "btn-sm", "btn-ghost", "btn-icon", "btn-danger", "ic-trash"]'></anvil-component>
+  </div>
+</div>

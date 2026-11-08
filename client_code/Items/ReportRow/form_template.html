@@ -1,0 +1,10 @@
+<div class="ui-card ad-rep">
+  <div class="ui-row">
+    <anvil-component type="Label" name="reason" prop:role='["badge", "badge-bad"]' bind:text="self.item['reason']"></anvil-component>
+    <anvil-component type="Label" name="reporter" prop:role='["strong"]' bind:text="self.item['reporter']"></anvil-component>
+    <anvil-component type="Label" name="when" prop:role='["fine-print"]'></anvil-component>
+  </div>
+  <anvil-component type="Label" name="details" prop:role='["ad-details"]' bind:text="self.item['details']"></anvil-component>
+  <anvil-component type="LinearPanel" name="listing_slot"></anvil-component>
+  <p class="muted" anvil:name="gone">The item was deleted.</p>
+</div>

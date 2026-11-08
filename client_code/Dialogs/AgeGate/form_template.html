@@ -1,0 +1,14 @@
+<div class="ui dlg-host">
+  <anvil-component type="Label" name="title" prop:role='["dlg-title"]' prop:text="Quick check: are you 18 or older?"></anvil-component>
+  <p class="muted">Better Than Marketplace is for adults. We only keep that you confirmed it, not your birthday.</p>
+  <div class="ui-stack">
+    <label class="ui-field"><span>Date of birth</span>
+      <anvil-component type="TextBox" name="dob_box"></anvil-component>
+    </label>
+    <anvil-component type="Label" name="error" prop:role='["msg-error"]' prop:visible="false"></anvil-component>
+    <div class="ui-row end">
+      <anvil-component type="Button" name="cancel_button" prop:text="Not now" prop:role='["btn", "btn-ghost"]'></anvil-component>
+      <anvil-component type="Button" name="ok_button" prop:text="Confirm" prop:role='["btn", "btn-primary"]'></anvil-component>
+    </div>
+  </div>
+</div>

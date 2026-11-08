@@ -1,0 +1,46 @@
+<anvil-form layout="Better_Than_Marketplace.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap ms-wrap" anvil:name="wrap">
+      <div class="ui-page-head" anvil:name="page_head"><div><h1>Chats</h1><p class="muted">Questions about your stuff, and your questions to sellers.</p></div></div>
+      <div class="ms-grid" anvil:name="grid">
+        <div class="ms-side">
+          <div class="ui-seg ms-filter" role="group" aria-label="Show">
+            <anvil-component type="Button" name="f_all" prop:text="All" prop:role='["seg"]'></anvil-component>
+            <anvil-component type="Button" name="f_buying" prop:text="Buying" prop:role='["seg"]'></anvil-component>
+            <anvil-component type="Button" name="f_selling" prop:text="Selling" prop:role='["seg"]'></anvil-component>
+          </div>
+          <anvil-component type="RepeatingPanel" name="chats" prop:item_template="Better_Than_Marketplace.Items.ChatRow" prop:role='["ms-list"]'></anvil-component>
+          <div class="ui-empty" anvil:name="empty">
+            <anvil-component type="Better_Than_Marketplace.Components.EmptyArt" name="empty_art"></anvil-component>
+            <h2 class="empty-h">No chats yet</h2>
+            <anvil-component type="Label" name="empty_text"></anvil-component>
+            <a class="ui-btn primary" href="#browse">Browse</a>
+          </div>
+        </div>
+        <div class="ms-pane" anvil:name="pane">
+          <div class="ms-empty-pane" anvil:name="pick_hint"><div><i class="ic ic-chat"></i><p>Pick a chat on the left.</p></div></div>
+          <div class="ms-thread" anvil:name="thread">
+            <div class="ms-top">
+              <a class="ui-btn ghost icon" href="#messages" aria-label="All chats"><i class="ic ic-back"></i></a>
+              <img alt="" anvil:dom-node="cover">
+              <div class="grow">
+                <a class="title" href="#item" anvil:name="title_link"></a>
+                <span class="title" anvil:name="title_plain"></span>
+                <div class="sub"><anvil-component type="Label" name="role_text"></anvil-component> <a href="#seller" anvil:name="other_link"></a></div>
+              </div>
+              <anvil-component type="Label" name="tag" prop:role='["tag", "tag-inline"]'></anvil-component>
+            </div>
+            <div class="ms-body" anvil:dom-node="body" tabindex="0" aria-label="Messages" aria-live="polite">
+              <anvil-component type="RepeatingPanel" name="bubbles" prop:item_template="Better_Than_Marketplace.Items.Bubble" prop:role='["contents"]'></anvil-component>
+            </div>
+            <anvil-component type="RepeatingPanel" name="quick" prop:item_template="Better_Than_Marketplace.Items.QuickChip" prop:role='["ms-quick"]'></anvil-component>
+            <div class="ms-send">
+              <anvil-component type="TextArea" name="message_box"></anvil-component>
+              <anvil-component type="Button" name="send_button" prop:text="Send" prop:role='["btn", "btn-primary", "btn-icon", "ic-arrow"]'></anvil-component>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </anvil-block>
+</anvil-form>

@@ -1,0 +1,30 @@
+<div class="ad-l-host">
+<div class="ui-card ad-l" anvil:name="box">
+  <a href="#item" anvil:name="pic_link" tabindex="-1" aria-hidden="true"><img alt="" anvil:dom-node="img"><span class="ph" anvil:name="ph"></span></a>
+  <div class="ad-main">
+    <h3 class="ad-title"><a href="#item" anvil:name="title_link"></a></h3>
+    <div class="facts">
+      <anvil-component type="Label" name="tag" prop:role='["tag", "tag-inline"]'></anvil-component>
+      <anvil-component type="Label" name="status"></anvil-component>
+      <span><a href="#seller" anvil:name="owner_link"></a><anvil-component type="Label" name="owner_email"></anvil-component></span>
+      <anvil-component type="Label" name="area"></anvil-component>
+      <anvil-component type="Label" name="when"></anvil-component>
+      <anvil-component type="Label" name="views"></anvil-component>
+      <anvil-component type="Label" name="reports" prop:role='["badge", "badge-bad"]' prop:visible="false"></anvil-component>
+      <anvil-component type="Label" name="hidden" prop:text="Hidden" prop:role='["badge", "badge-bad"]' prop:visible="false"></anvil-component>
+      <anvil-component type="Label" name="demo" prop:text="Demo" prop:role='["badge"]' prop:visible="false"></anvil-component>
+    </div>
+    <anvil-component type="Label" name="why" prop:role='["fine-print", "ad-why"]' prop:visible="false"></anvil-component>
+  </div>
+  <div class="ad-acts" anvil:name="list_acts">
+    <anvil-component type="Button" name="hide_button" prop:text="Hide" prop:role='["btn", "btn-sm"]'></anvil-component>
+    <anvil-component type="Button" name="show_button" prop:text="Show again" prop:role='["btn", "btn-sm"]'></anvil-component>
+    <anvil-component type="Button" name="delete_button" prop:text="Delete" prop:role='["btn", "btn-sm", "btn-danger", "ic-trash"]'></anvil-component>
+  </div>
+  <div class="ad-acts" anvil:name="report_acts">
+    <anvil-component type="Button" name="fine_button" prop:text="It's fine" prop:role='["btn", "btn-sm"]'></anvil-component>
+    <anvil-component type="Button" name="hide_it_button" prop:text="Hide it" prop:role='["btn", "btn-sm"]'></anvil-component>
+    <anvil-component type="Button" name="delete_it_button" prop:text="Delete it" prop:role='["btn", "btn-sm", "btn-danger", "ic-trash"]'></anvil-component>
+  </div>
+</div>
+</div>

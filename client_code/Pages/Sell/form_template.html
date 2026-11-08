@@ -1,0 +1,109 @@
+<anvil-form layout="Better_Than_Marketplace.Layouts.Shell">
+  <anvil-block slot="content">
+    <div class="ui-wrap sl-wrap">
+      <div anvil:name="setup_part">
+        <div class="sl-head"><div><h1>Let's get you selling</h1><p class="muted sl-lead">Two quick things first.</p></div></div>
+        <div class="sl-steps">
+          <div class="ui-card sl-step" anvil:name="age_step">
+            <span class="num" anvil:name="age_num">1</span>
+            <div class="grow">
+              <h2 class="sl-step-title">You're 18 or older</h2>
+              <p class="muted">Better Than Marketplace is for adults.</p>
+              <anvil-component type="Label" name="age_done" prop:text="Confirmed" prop:role='["badge", "badge-good"]'></anvil-component>
+              <anvil-component type="Button" name="age_button" prop:text="Confirm my age" prop:role='["btn", "btn-primary"]'></anvil-component>
+            </div>
+          </div>
+          <div class="ui-card sl-step" anvil:name="spot_step">
+            <span class="num" anvil:name="spot_num">2</span>
+            <div class="grow">
+              <h2 class="sl-step-title">Where you sell from</h2>
+              <p class="muted">Buyers see your area and how far away it is, never your address.</p>
+              <anvil-component type="Label" name="spot_done" prop:role='["badge", "badge-good"]'></anvil-component>
+              <anvil-component type="Button" name="spot_button" prop:text="Set my spot" prop:role='["btn", "btn-primary", "ic-pin"]'></anvil-component>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-narrow" anvil:name="missing">
+        <div class="ui-empty">
+          <anvil-component type="Label" name="missing_title" prop:role='["empty-title"]'></anvil-component>
+          <a class="ui-btn" href="#mine">Your stuff</a>
+        </div>
+      </div>
+
+      <div anvil:name="form_part">
+        <div class="sl-head">
+          <div>
+            <anvil-component type="Label" name="form_title" prop:role='["page-title"]'></anvil-component>
+            <anvil-component type="Label" name="form_lead" prop:role='["sl-lead"]'></anvil-component>
+          </div>
+          <div class="sl-spot"><i class="ic ic-pin"></i><anvil-component type="Label" name="spot_label"></anvil-component>
+            <anvil-component type="Button" name="change_spot" prop:text="change" prop:role='["sl-textlink"]'></anvil-component>
+          </div>
+        </div>
+
+        <div anvil:name="snap_box">
+          <button type="button" class="sl-snap" anvil:on-dom:click="self.cam_click"><span class="sl-cam"><i class="ic ic-camera"></i></span><b>Snap a photo</b><span class="muted">Point, shoot, done. Add up to 8.</span></button>
+          <div class="sl-or"><button type="button" anvil:on-dom:click="self.lib_click"><i class="ic ic-image"></i> or pick from your photos</button></div>
+        </div>
+        <div anvil:name="tray_box">
+          <div class="sl-tray">
+            <anvil-component type="RepeatingPanel" name="tray" prop:item_template="Better_Than_Marketplace.Items.Tile" prop:role='["contents"]'></anvil-component>
+            <button type="button" class="sl-add" anvil:name="add_tile" anvil:on-dom:click="self.cam_click"><i class="ic ic-camera"></i>Add photo</button>
+          </div>
+          <p class="ui-hint" anvil:name="cover_hint">Tap a photo to make it the cover.</p>
+        </div>
+
+        <div class="sl-form ui-stack">
+          <label class="ui-field sl-name"><span>What is it?</span>
+            <anvil-component type="TextBox" name="title_box" prop:placeholder="e.g. Yellow armchair"></anvil-component>
+          </label>
+          <div class="ui-field"><span id="sl-price-label">Price</span>
+            <div class="sl-price-row">
+              <div class="ui-seg" role="group" aria-labelledby="sl-price-label">
+                <button type="button" anvil:name="m_price" data-mode="price" anvil:on-dom:click="self.mode_click">Price</button>
+                <button type="button" anvil:name="m_free" data-mode="free" anvil:on-dom:click="self.mode_click">Free</button>
+                <button type="button" anvil:name="m_offer" data-mode="offer" anvil:on-dom:click="self.mode_click">Make an offer</button>
+              </div>
+              <div class="sl-money" anvil:name="money_box"><span aria-hidden="true">$</span>
+                <anvil-component type="TextBox" name="price_box" prop:type="number" prop:placeholder="0"></anvil-component>
+              </div>
+            </div>
+            <div class="sl-quick" anvil:name="quick_box">
+              <button type="button" data-amount="5" anvil:on-dom:click="self.amount_click">$5</button>
+              <button type="button" data-amount="10" anvil:on-dom:click="self.amount_click">$10</button>
+              <button type="button" data-amount="20" anvil:on-dom:click="self.amount_click">$20</button>
+              <button type="button" data-amount="40" anvil:on-dom:click="self.amount_click">$40</button>
+              <button type="button" data-amount="75" anvil:on-dom:click="self.amount_click">$75</button>
+              <button type="button" data-amount="100" anvil:on-dom:click="self.amount_click">$100</button>
+            </div>
+          </div>
+          <details class="sl-more" anvil:dom-node="more">
+            <summary><i class="ic ic-plus"></i>Add a note (optional)</summary>
+            <anvil-component type="TextArea" name="note_box" prop:placeholder="Size, condition, pick-up times… only if you feel like it."></anvil-component>
+          </details>
+          <anvil-component type="Label" name="error" prop:role='["msg-error"]' prop:visible="false"></anvil-component>
+          <div class="sl-post">
+            <anvil-component type="Button" name="post_button" prop:text="Post it" prop:role='["btn", "btn-primary", "btn-lg", "btn-block", "ic-check"]'></anvil-component>
+          </div>
+          <p class="sl-cancel" anvil:name="cancel_box"><a href="#mine" anvil:name="cancel_link">Cancel</a></p>
+        </div>
+        <input type="file" accept="image/*" capture="environment" hidden tabindex="-1" aria-hidden="true" anvil:dom-node="cam_input">
+        <input type="file" accept="image/*" multiple hidden tabindex="-1" aria-hidden="true" anvil:dom-node="lib_input">
+      </div>
+
+      <div class="sl-done" anvil:name="done_part">
+        <anvil-component type="Label" name="done_count" prop:role='["sl-lead"]'></anvil-component>
+        <h1>It's for sale!</h1>
+        <anvil-component type="Label" name="done_text" prop:role='["fine-print", "sl-done-text"]'></anvil-component>
+        <anvil-component type="LinearPanel" name="done_slot" prop:role='["sl-done-card"]'></anvil-component>
+        <div class="ui-row">
+          <anvil-component type="Button" name="next_button" prop:text="Snap the next thing" prop:role='["btn", "btn-primary", "btn-lg", "ic-camera"]'></anvil-component>
+          <a class="ui-btn lg" href="#item" anvil:name="see_link">See it</a>
+        </div>
+        <p class="sl-all"><a href="#mine">All your stuff</a></p>
+      </div>
+    </div>
+  </anvil-block>
+</anvil-form>
