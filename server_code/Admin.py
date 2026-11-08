@@ -94,7 +94,7 @@ def admin_listings(query=None, which="all"):
     if which == "hidden":
         rows = [r for r in rows if r["hidden"]]
     elif which == "reported":
-        rows = [r for r in rows if app_tables.reports.search(listing=r, status="open")]
+        rows = [r for r in rows if len(app_tables.reports.search(listing=r, status="open"))]
     elif which == "sold":
         rows = [r for r in rows if r["status"] == "sold"]
     if query:
