@@ -175,7 +175,7 @@ class Messages(MessagesTemplate):
         self.message_box.focus()
 
     def _key(self, event):
-        if event.key == "Enter" and not event.shiftKey and btm.media("(pointer: fine)"):
+        if getattr(event, "key", None) == "Enter" and not getattr(event, "shiftKey", False) and btm.media("(pointer: fine)"):
             event.preventDefault()
             self.send_button_click()
 
