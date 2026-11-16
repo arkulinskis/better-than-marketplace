@@ -1,8 +1,7 @@
 """Who is signed in, their profile, the 18+ check and their selling spot.
 
-ADMIN_EMAILS become admins the first time they sign in. Email confirmation is off (USERS_CONFIG in
-tools/sync_to_anvil.py), so whoever first registers one of these emails gets admin: sign up with it
-yourself right after the app goes live.
+The emails in the App Secret `admin_emails` become admins the first time they sign in with a proven
+address (Google sign-in or a confirmed email): see AdminAccess.py. The address is never in the code.
 
 Accounts are 18+: sign-up asks for the date of birth (finish_signup). We keep only the moment the person
 confirmed it (users.adult_confirmed_at), never the date itself. Someone under 18 gets their new account
@@ -13,8 +12,9 @@ import anvil.users
 from anvil.tables import app_tables
 
 from . import common as C
+from . import AdminAccess
 
-ADMIN_EMAILS = {"arkulinskis@gmail.com"}
+ADMIN_EMAILS = AdminAccess.ADMIN_EMAILS  # from the App Secret `admin_emails`
 
 
 def spot_dict(user):
@@ -38,7 +38,7 @@ def get_me():
     if user is None:
         return None
     changes: dict = {}
-    if (user["email"] or "").lower() in ADMIN_EMAILS and not user["is_admin"]:
+    if AdminAccess.may_promote(user) and not user["is_admin"]:
         changes["is_admin"] = True
     seen = user["last_seen"]
     if seen is None or (C.now() - seen).total_seconds() > 3600:
