@@ -130,6 +130,10 @@ tools/                     check.py, assets.py, build_icons.py, make_icons.py, u
   (`python -I APP_MAKER/tools/loaders.py apply betterthanmarketplace <preset>`), `LEGAL_THEME` in startup.py.
 - **Icon:** edit theme/assets/icon.svg, `python -I tools/make_icons.py`, then `python tools/assets.py`.
 
+- **Pickup plans, auto-answer, price helper (2026-11-20):** see APP_MAP.md Notes. New table `meetups` and column
+  `messages.kind` are read through try/except guards, so the live app keeps working until the Schema Mismatch is
+  accepted. Safe spots come from Overpass (legal-kit provider `btm_overpass`), on a tap only.
+
 ## Gotchas
 
 - The local App Server (1.18) lags hosted Anvil: no `HtmlComponent.attrs` (use state.set_attr), `Notification(role=)`

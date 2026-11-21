@@ -274,7 +274,7 @@ assert call("badges")["unread"] == 2
 lst = call("list_chats")["chats"]
 assert len(lst) == 1 and lst[0]["role"] == "selling" and lst[0]["other"] == "Bob Stone" and lst[0]["unread"] == 2 and lst[0]["last_text"] == "Also, what colour is it?"
 g = ok(call("get_chat", ck))
-assert len(g["messages"]) == 2 and not g["messages"][0]["mine"] and call("badges")["unread"] == 0
+assert len(g["messages"]) == 3 and g["messages"][1]["kind"] == "auto" and not g["messages"][0]["mine"] and call("badges")["unread"] == 0
 after = g["messages"][-1]["at"]
 m = ok(call("send_message", ck, "Yes! Brass, a warm gold."))["message"]
 assert m["mine"]

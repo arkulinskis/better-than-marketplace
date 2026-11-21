@@ -18,7 +18,9 @@ class Sell(SellTemplate):
     Before the first post: the 18+ check (if the account hasn't confirmed it) and "where do you sell from".
     Then: snap or pick photos (each is shrunk on the phone by btm.js and uploads right away), a name, a price (or Free /
     Make an offer), an optional note, Post. After posting: confetti and "Snap the next thing" for rapid fire.
-    Server: upload_photo, create_listing, get_for_edit, update_listing (+ set_spot / confirm_age via btm.py)."""
+    Price helper (2026-11-20): after a name is typed, "Similar near you sold for $15-$40" from the app's own listings
+    (server price_hint), with a one-tap "Use $20".
+    Server: upload_photo, create_listing, get_for_edit, update_listing, price_hint (+ set_spot / confirm_age via btm.py)."""
 
     def __init__(self, args=(), **properties):
         super().__init__(**properties)
@@ -28,6 +30,9 @@ class Sell(SellTemplate):
         self.posted = 0
         self.seq = 0
         self.alive = True
+        self.hint_for = ""
+        self.hint_timer = None
+        self.hint_price = None
         self.tray.add_event_handler("x-cover", self._cover)
         self.tray.add_event_handler("x-remove", self._remove)
         self.tray.add_event_handler("x-retry", self._retry)
@@ -142,6 +147,58 @@ class Sell(SellTemplate):
         for name, el in (("price", self.m_price), ("free", self.m_free), ("offer", self.m_offer)):
             el.classes["on"] = self.mode == name
         self.money_box.visible = self.quick_box.visible = self.mode == "price"
+        self.hint_box.visible = self.mode == "price" and bool(self.hint_text.text)
+
+    # ---- price helper: what similar things went for nearby
+    @handle("title_box", "change")
+    def title_box_change(self, **event_args):
+        if self.hint_timer is not None:
+            window.clearTimeout(self.hint_timer)
+        self.hint_timer = window.setTimeout(self._hint, 700)
+
+    @handle("title_box", "lost_focus")
+    def title_box_lost_focus(self, **event_args):
+        self._hint()
+
+    def _hint(self, *args):
+        self.hint_timer = None
+        title = (self.title_box.text or "").strip()
+        if not self.alive or len(title) < 3 or title.lower() == self.hint_for:
+            if len(title) < 3:
+                self._hint_show("", None)
+            return
+        self.hint_for = title.lower()
+        try:
+            r = anvil.server.call_s("price_hint", title)
+        except Exception:
+            return
+        if not self.alive or self.hint_for != (self.title_box.text or "").strip().lower() or not isinstance(r, dict):
+            return
+        if not r.get("ok"):
+            return
+        if not r.get("found"):
+            self._hint_show("Nothing like it near you yet. Tip: about half of what you paid usually sells fast.", None)
+            return
+        parts = []
+        for key, word in (("sold", "sold for"), ("live", "for sale at")):
+            x = r.get(key)
+            if x:
+                span = btm.money(x["low"]) if x["low"] == x["high"] else "%s-%s" % (btm.money(x["low"]), btm.money(x["high"]))
+                parts.append("%d %s %s" % (x["n"], word, span))
+        self._hint_show("Similar near you: " + " · ".join(parts) + ".", r.get("suggest"))
+
+    def _hint_show(self, text, price):
+        self.hint_text.text = text
+        self.hint_price = price
+        self.hint_use.visible = price is not None
+        if price is not None:
+            self.hint_use.text = "Use " + btm.money(price)
+        self.hint_box.visible = self.mode == "price" and bool(text)
+
+    @handle("hint_use", "click")
+    def hint_use_click(self, **event_args):
+        if self.hint_price is not None:
+            self.price_box.text = "%g" % self.hint_price
 
     def mode_click(self, event):
         self.mode = event.currentTarget.getAttribute("data-mode")
@@ -295,6 +352,8 @@ class Sell(SellTemplate):
         self.tiles = []
         self.mode = "offer" if self.mode == "offer" else "price"
         self.title_box.text, self.price_box.text, self.note_box.text = "", "", ""
+        self.hint_for = ""
+        self._hint_show("", None)
 
     @handle("next_button", "click")
     def next_button_click(self, **event_args):

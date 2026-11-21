@@ -56,6 +56,17 @@ def dist(d):
     return "%d km" % round(d)
 
 
+def pickups(seller, short=False):
+    """The pickup record line ("Showed up to 7 of 7 pickups"), or "" before anyone has marked a pickup."""
+    p = (seller or {}).get("pickups") or {}
+    total = p.get("total") or 0
+    if not total:
+        return ""
+    if short:
+        return "showed up %d/%d" % (p.get("met") or 0, total)
+    return "Showed up to %d of %d pickup%s" % (p.get("met") or 0, total, "" if total == 1 else "s")
+
+
 def first_name(name):
     return (name or "").split(" ")[0]
 

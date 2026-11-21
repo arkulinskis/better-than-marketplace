@@ -1009,6 +1009,25 @@ html.ui-dark .lp-map { --land: #1f1b17; --street: #322c25; --casing: #3d362e; --
 .ms-send textarea { min-height: 46px !important; height: 46px; max-height: 140px; resize: none; }
 .ms-send > *:first-child { flex: 1; min-width: 0; }
 .ms-empty-pane { display: grid; place-items: center; text-align: center; color: var(--c-muted); padding: 40px; border: 2px dashed var(--c-line); border-radius: var(--radius); min-height: 360px; }
+/* pickup plan card (2026-11-20): sits between the thread's top bar and the messages */
+.ms-plan { padding: 10px 14px; border-bottom: 2px solid var(--c-line); background: var(--c-accent-soft); display: grid; gap: 6px; }
+.ms-plan-main { display: flex; gap: 10px; align-items: center; min-width: 0; }
+.ms-plan-main .grow { flex: 1; min-width: 0; }
+.ms-plan-ic { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--c-accent); color: #1e1a16; border: 2px solid var(--c-edge); }
+.ms-plan-ic .ic { width: 17px; height: 17px; }
+.anvil-role-ms-plan-when { font: 800 1rem/1.2 var(--font-display); color: var(--c-ink); font-variant-numeric: tabular-nums; }
+.anvil-role-ms-plan-place { font-size: .86rem; color: var(--c-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.anvil-role-ms-plan-hint { font-size: .84rem; color: var(--c-ink); }
+.ms-plan-acts { display: flex; gap: 6px; flex-wrap: wrap; }
+.pk-when { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 10px; }
+.pk-spots { margin-top: 10px; }
+.pk-tip { display: flex; gap: 8px; align-items: flex-start; margin: 0; font-size: .86rem; color: var(--c-muted); background: var(--c-accent-soft); border: 1.5px solid var(--c-line); border-radius: var(--radius-sm); padding: 10px 12px; }
+.pk-tip .ic { flex: none; width: 16px; height: 16px; margin-top: 2px; color: var(--c-ink); }
+/* price helper on Sell */
+.sl-hint { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 10px; padding: 9px 12px; border-radius: var(--radius-sm); border: 1.5px dashed var(--c-edge); background: var(--c-surface); }
+.sl-hint > .ic { flex: none; width: 16px; height: 16px; color: var(--c-brand-text); }
+.anvil-role-sl-hint-text { flex: 1; min-width: 180px; font-size: .88rem; color: var(--c-ink); }
+.sp-fact.sp-pickups { background: var(--c-good-soft); color: var(--c-good); border-color: var(--c-good); }
 @media (max-width: 860px) {
   .ms-grid { grid-template-columns: minmax(0, 1fr); }
   .ms-grid.has-thread .ms-side { display: none; }

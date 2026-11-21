@@ -54,8 +54,12 @@ DEMO_LISTINGS = [
     (0, "Velvet armchair (green)", "armchair", "price", 70, "", 300, "sold", 1),
     (5, "Houseplant cuttings", "plant", "free", None, "Pothos and spider plant cuttings, bring a jar.", 240, "sold", 1),
 ]
+# Finished pickups per demo seller (their "Showed up to n of n pickups"); (seller, no-shows) gets that many misses.
+DEMO_PICKUPS = [5, 3, 7, 2, 4, 6, 1, 3]
+DEMO_NOSHOWS = {3: 1}
 # Tables that hold demo rows (each has an is_demo column). Children before parents.
 DEMO_TABLES = ["messages", "chats", "reports", "saves", "photos", "listings"]
+NEW_TABLES = ["meetups"]  # added 2026-11-20: may not exist until the user accepts the schema change
 
 
 def state():
@@ -94,8 +98,26 @@ def load():
                                         views=7 + (hours * 3) % 41, hidden=False, is_demo=True)
         for p in photos:
             p["listing"] = r
+    _pickups(users)
     C.set_setting("demo", "loaded")
     return counts()
+
+
+def _pickups(users):
+    """Finished pickups between demo people, so demo sellers show a pickup record."""
+    try:
+        for i, n in enumerate(DEMO_PICKUPS):
+            for k in range(n):
+                when = C.now() - dt.timedelta(days=3 + 9 * k + i)
+                buyer = users[(i + k + 1) % len(users)]
+                seller_mark = "met"
+                buyer_mark = "noshow" if k < DEMO_NOSHOWS.get(i, 0) else "met"
+                app_tables.meetups.add_row(chat=None, buyer=buyer, seller=users[i], proposer=buyer, at=when,
+                                           place="Metro station entrance", status="confirmed", buyer_mark=buyer_mark,
+                                           seller_mark=seller_mark, created=when - dt.timedelta(days=1), updated=when,
+                                           is_demo=True)
+    except Exception:
+        pass  # no meetups table yet
 
 
 def remove(remember=True):
@@ -104,6 +126,11 @@ def remove(remember=True):
     # real rows that point at demo rows: chats with demo sellers, saves / reports of demo items
     for c in app_tables.chats.search():
         if c["is_demo"] or c["seller"] in demo_users or c["buyer"] in demo_users or c["listing"] in demo_listings:
+            try:
+                for m in app_tables.meetups.search(chat=c):
+                    m.delete()
+            except Exception:
+                pass
             for m in app_tables.messages.search(chat=c):
                 m.delete()
             c.delete()
@@ -111,6 +138,12 @@ def remove(remember=True):
         for x in t.search():
             if x["listing"] in demo_listings:
                 x.delete()
+    for name in NEW_TABLES:
+        try:
+            for r in getattr(app_tables, name).search(is_demo=True):
+                r.delete()
+        except Exception:
+            pass
     for name in DEMO_TABLES:
         for r in getattr(app_tables, name).search(is_demo=True):
             r.delete()

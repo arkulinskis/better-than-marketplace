@@ -158,6 +158,56 @@
     });
   };
 
+  /* ---------------------------------------------------------------- safe meeting spots (Overpass, on a tap only) */
+  /* Public places around an item's rough area (~1 km point) for a pickup plan: police stations first (many run a
+     safe-trade spot), then libraries, metro and train stations, malls and community centres, nearest first.
+     Resolves a JSON string: [{lat, lng, name, kind, km, label}]; rejects when Overpass is slow or down. */
+  var SPOT_KINDS = [
+    ['amenity', 'police', 'Police station'], ['amenity', 'library', 'Library'], ['station', 'subway', 'Metro station'],
+    ['railway', 'station', 'Train station'], ['shop', 'mall', 'Shopping centre'], ['amenity', 'community_centre', 'Community centre']
+  ];
+  function kmBetween(a, b, c, d) {
+    var r = Math.PI / 180, x = (d - b) * r * Math.cos((a + c) / 2 * r), y = (c - a) * r;
+    return Math.sqrt(x * x + y * y) * 6371;
+  }
+  BTM.safeSpots = function (lat, lng) {
+    var around = '(around:2500,' + lat + ',' + lng + ')', parts = SPOT_KINDS.map(function (k) {
+      return 'nwr' + around + '["' + k[0] + '"="' + k[1] + '"];';
+    });
+    var query = '[out:json][timeout:10];(' + parts.join('') + ');out center 80;';
+    var ctl = window.AbortController ? new AbortController() : null;
+    var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 10000);
+    return fetch('https://overpass-api.de/api/interpreter', {
+      method: 'POST', body: 'data=' + encodeURIComponent(query), signal: ctl ? ctl.signal : undefined,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }).then(function (r) {
+      if (!r.ok) throw new Error('busy');
+      return r.json();
+    }).then(function (j) {
+      var seen = {}, out = [];
+      (j.elements || []).forEach(function (e) {
+        var t = e.tags || {}, kind = null, rank = 0;
+        SPOT_KINDS.forEach(function (k, i) { if (!kind && t[k[0]] === k[1]) { kind = k[2]; rank = i; } });
+        var y = e.lat != null ? e.lat : e.center && e.center.lat, x = e.lon != null ? e.lon : e.center && e.center.lon;
+        if (!kind || y == null) return;
+        var name = (t['name:en'] || t.name || '').slice(0, 70);
+        if (!name && rank !== 0) return;  // unnamed police stations still count; other unnamed places don't
+        var id = (name || kind).toLowerCase();
+        if (seen[id]) return;
+        seen[id] = 1;
+        var km = kmBetween(lat, lng, y, x);
+        out.push({ lat: y, lng: x, name: name || kind, kind: kind, police: rank === 0, km: Math.round(km * 10) / 10 });
+      });
+      var police = out.filter(function (p) { return p.police; }).sort(function (a, b) { return a.km - b.km; }).slice(0, 2);
+      var rest = out.filter(function (p) { return !p.police; }).sort(function (a, b) { return a.km - b.km; });
+      return JSON.stringify(police.concat(rest).slice(0, 8).map(function (p) {
+        var far = p.km < 1 ? Math.round(p.km * 1000 / 50) * 50 + ' m' : p.km.toFixed(1) + ' km';
+        p.label = (p.name === p.kind ? p.kind : p.name + ' · ' + p.kind) + ' · ' + far + ' from the item';
+        return p;
+      }));
+    }).finally(function () { clearTimeout(timer); });
+  };
+
   /* ---------------------------------------------------------------- share, confetti, lightbox */
   /* Resolves 'shared', 'copied' or 'manual' (Python then shows the link to copy by hand). */
   BTM.share = function (title, text, url) {

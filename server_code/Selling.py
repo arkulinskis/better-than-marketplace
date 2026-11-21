@@ -7,6 +7,7 @@ Photos are served by the /photo endpoint (Photos.py) under their random key.
 """
 import base64
 import datetime as dt
+import re
 
 import anvil
 import anvil.server
@@ -221,6 +222,69 @@ def delete_listing(key):
         return C.fail("That's not your item.")
     delete_listing_row(r)
     return C.ok()
+
+
+HINT_RADIUS_KM = 25
+HINT_SOLD_DAYS = 180
+HINT_SCAN = 3000
+HINT_SKIP = {"the", "and", "for", "with", "set", "new", "used", "old", "small", "big", "large", "good", "great", "nice",
+             "like", "very", "some", "from", "size", "pair", "box", "lot", "bundle", "item", "les", "des", "une", "pour", "avec"}
+
+
+def _words(text):
+    out = set()
+    for w in re.findall(r"[^\W\d_]{3,}", (text or "").lower()):
+        if w not in HINT_SKIP:
+            out.add(w[:-1] if len(w) > 4 and w.endswith("s") else w)
+    return out
+
+
+def _nice(n):
+    """A price people would actually write: whole dollars under $20, fives under $100, tens above."""
+    if n < 20:
+        return float(max(1, round(n)))
+    if n < 100:
+        return float(5 * round(n / 5.0))
+    return float(10 * round(n / 10.0))
+
+
+def _spread(prices):
+    if not prices:
+        return None
+    prices = sorted(prices)
+    mid = len(prices) // 2
+    median = prices[mid] if len(prices) % 2 else (prices[mid - 1] + prices[mid]) / 2.0
+    return {"n": len(prices), "low": prices[0], "high": prices[-1], "median": median}
+
+
+@anvil.server.callable(require_user=True)
+def price_hint(title):
+    """What similar things sold for (last 180 days) and cost now within 25 km of my selling spot, from this app's own
+    listings: a shared word in the name is "similar". Suggests the median sold price (or a bit under the asking ones)."""
+    me = C.require_user()
+    words = _words(C.text(title, 80))
+    if not words:
+        return C.ok(found=False)
+    if C.rate_limited("price_hint", 60, 600):
+        return C.ok(found=False)
+    spot = (me["spot_lat"], me["spot_lng"]) if C.has_spot(me) else None
+    since = C.now() - dt.timedelta(days=HINT_SOLD_DAYS)
+    sold, live = [], []
+    for i, r in enumerate(app_tables.listings.search(price_mode="price", hidden=False)):
+        if i >= HINT_SCAN:
+            break
+        if r["price"] is None or r["owner"] == me or not (_words(r["title"]) & words):
+            continue
+        if spot and r["lat"] is not None and C.km_between(spot[0], spot[1], r["lat"], r["lng"]) > HINT_RADIUS_KM:
+            continue
+        if r["status"] == "sold":
+            if r["sold_at"] and r["sold_at"] >= since:
+                sold.append(r["price"])
+        elif r["status"] in Market.LIVE:
+            live.append(r["price"])
+    s, l = _spread(sold), _spread(live)
+    suggest = _nice(s["median"]) if s else _nice(l["median"] * 0.9) if l else None
+    return C.ok(found=bool(s or l), sold=s, live=l, suggest=suggest)
 
 
 @anvil.server.callable(require_user=True)

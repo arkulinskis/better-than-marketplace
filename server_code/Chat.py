@@ -3,6 +3,8 @@
 Only the two people in a chat can read it. Emails are never shared: people see each other's display names.
 The chat page polls (poll_chat) every few seconds while it's open; the tab bar polls badges() for unread counts.
 """
+import re
+
 import anvil.server
 from anvil.tables import app_tables
 import anvil.tables as tables
@@ -31,8 +33,43 @@ def _chat(key, me):
     return c, None
 
 
+def _kind(m):
+    """"" for a person's message, "auto" for the still-available auto-answer (messages.kind is a 2026-11-20 column:
+    read through a guard until the user accepts the schema change)."""
+    try:
+        return m["kind"] or ""
+    except Exception:
+        return ""
+
+
 def _msg(m, me):
-    return {"id": m.get_id(), "text": m["text"], "at": C.iso(m["created"]), "mine": m["sender"] == me}
+    return {"id": m.get_id(), "text": m["text"], "at": C.iso(m["created"]), "mine": m["sender"] == me and m["sender"] is not None,
+            "kind": _kind(m)}
+
+
+AVAILABLE = re.compile(r"\b(still\s+)?(available|for sale|dispo(nible)?)\b", re.I)
+
+
+def _ago(when):
+    days = (C.now() - when).days if when else 0
+    return "today" if days < 1 else "yesterday" if days < 2 else "%d days ago" % days
+
+
+def _auto_answer(c, r, text):
+    """A new chat that opens with "Is this still available?" gets an instant answer from the item's live status, so
+    the buyer isn't left waiting and the seller doesn't have to type "yes" for the hundredth time."""
+    if len(text) > 120 or not AVAILABLE.search(text):
+        return
+    first = (C.name_of(r["owner"]) or "the seller").split(" ")[0]
+    if r["status"] == "reserved":
+        answer = "Auto-answer: it's reserved for someone right now. Ask %s if you can be next in line." % first
+    else:
+        answer = ("Auto-answer: yes, it's still for sale (listed %s). Ask %s about a time to pick it up."
+                  % (_ago(r["created"]), first))
+    try:
+        app_tables.messages.add_row(chat=c, sender=None, text=answer, created=C.now(), is_demo=False, kind="auto")
+    except Exception:
+        pass  # the kind column isn't there yet: no auto-answer
 
 
 def _add(c, me, text):
@@ -67,10 +104,13 @@ def start_chat(listing_key, text):
     if problem:
         return problem
     c = app_tables.chats.get(listing=r, buyer=me)
+    new = c is None
     if c is None:
         c = app_tables.chats.add_row(key=C.token(12), listing=r, title=r["title"], buyer=me, seller=r["owner"],
                                      created=C.now(), buyer_unread=0, seller_unread=0, is_demo=False)
     _add(c, me, text)
+    if new:
+        _auto_answer(c, r, text)
     return C.ok(chat=c["key"])
 
 
@@ -85,7 +125,9 @@ def _summary(c, me):
             "status": r["status"] if r is not None else "gone", "price": r["price"] if r is not None else None,
             "price_mode": r["price_mode"] if r is not None else None, "last_text": c["last_text"] or "",
             "last_mine": c["last_sender"] == me, "last_at": C.iso(c["last_at"] or c["created"]),
-            "unread": (c["buyer_unread"] if role == "buying" else c["seller_unread"]) or 0}
+            "unread": (c["buyer_unread"] if role == "buying" else c["seller_unread"]) or 0,
+            # the item's area (~1 km, like its map circle): where "Find a safe spot" looks around
+            "spot": {"lat": round(r["lat"], 2), "lng": round(r["lng"], 2)} if r is not None and r["lat"] is not None else None}
 
 
 @anvil.server.callable(require_user=True)
@@ -110,7 +152,8 @@ def get_chat(key):
         return problem
     _mark_read(c, me)
     msgs = list(app_tables.messages.search(tables.order_by("created"), chat=c))[-300:]
-    return C.ok(chat=_summary(c, me), messages=[_msg(m, me) for m in msgs])
+    from . import Pickup
+    return C.ok(chat=_summary(c, me), messages=[_msg(m, me) for m in msgs], plan=Pickup.plan_dict(c, me))
 
 
 @anvil.server.callable(require_user=True)
@@ -141,7 +184,8 @@ def poll_chat(key, after=None):
     if isinstance(after, str) and after:
         msgs = [m for m in msgs if C.iso(m["created"]) >= after]
     _mark_read(c, me)
-    return C.ok(messages=[_msg(m, me) for m in list(msgs)[-100:]])
+    from . import Pickup
+    return C.ok(messages=[_msg(m, me) for m in list(msgs)[-100:]], plan=Pickup.plan_dict(c, me))
 
 
 @anvil.server.callable(require_user=True)

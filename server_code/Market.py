@@ -130,8 +130,9 @@ def browse(opts=None):
 def seller_dict(u):
     sold = len([r for r in app_tables.listings.search(owner=u, status="sold")])
     active = len([r for r in app_tables.listings.search(owner=u, status=q.any_of(*LIVE), hidden=False)])
+    from . import Pickup  # (Pickup -> Chat -> Market: imported here to avoid a cycle)
     return {"key": C.public_key(u), "name": C.name_of(u), "since": C.iso(u["signed_up"]), "area": u["spot_label"] or "",
-            "sold": sold, "active": active, "demo": bool(u["is_demo"])}
+            "sold": sold, "active": active, "demo": bool(u["is_demo"]), "pickups": Pickup.record(u)}
 
 
 @anvil.server.callable

@@ -30,6 +30,27 @@
               </div>
               <anvil-component type="Label" name="tag" prop:role='["tag", "tag-inline"]'></anvil-component>
             </div>
+            <div class="ms-plan" anvil:name="plan_box">
+              <div class="ms-plan-main">
+                <span class="ms-plan-ic" aria-hidden="true"><i class="ic ic-calendar"></i></span>
+                <div class="grow">
+                  <anvil-component type="Label" name="plan_when" prop:role='["ms-plan-when"]'></anvil-component>
+                  <anvil-component type="Label" name="plan_place" prop:role='["ms-plan-place"]'></anvil-component>
+                </div>
+                <anvil-component type="Label" name="plan_badge" prop:role='["badge"]'></anvil-component>
+              </div>
+              <anvil-component type="Label" name="plan_hint" prop:role='["ms-plan-hint"]'></anvil-component>
+              <div class="ms-plan-acts" anvil:name="plan_acts">
+                <anvil-component type="Button" name="plan_new" prop:text="Plan pickup" prop:role='["btn", "btn-sm", "btn-accent", "ic-calendar"]'></anvil-component>
+                <anvil-component type="Button" name="plan_confirm" prop:text="Confirm" prop:role='["btn", "btn-sm", "btn-primary", "ic-check"]'></anvil-component>
+                <anvil-component type="Button" name="plan_onway" prop:text="On my way" prop:role='["btn", "btn-sm", "btn-primary", "ic-arrow"]'></anvil-component>
+                <anvil-component type="Button" name="plan_late" prop:text="Running late" prop:role='["btn", "btn-sm", "ic-clock"]'></anvil-component>
+                <anvil-component type="Button" name="plan_met" prop:text="We met" prop:role='["btn", "btn-sm", "btn-primary", "ic-check"]'></anvil-component>
+                <anvil-component type="Button" name="plan_noshow" prop:text="They didn't show" prop:role='["btn", "btn-sm", "btn-ghost"]'></anvil-component>
+                <anvil-component type="Button" name="plan_change" prop:text="Suggest another" prop:role='["btn", "btn-sm", "btn-ghost", "ic-edit"]'></anvil-component>
+                <anvil-component type="Button" name="plan_cancel" prop:text="Can't make it" prop:role='["btn", "btn-sm", "btn-ghost", "ic-x"]'></anvil-component>
+              </div>
+            </div>
             <div class="ms-body" anvil:dom-node="body" tabindex="0" aria-label="Messages" aria-live="polite">
               <anvil-component type="RepeatingPanel" name="bubbles" prop:item_template="Better_Than_Marketplace.Items.Bubble" prop:role='["contents"]'></anvil-component>
             </div>

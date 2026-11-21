@@ -29,6 +29,8 @@ class Seller(SellerTemplate):
         self.since.text = "Member since " + btm.long_date(s.get("since"))
         self.sold_count.text = "%d sold" % s["sold"]
         self.active_count.text = "%d for sale" % s["active"]
+        self.pickups.text = btm.pickups(s)
+        self.pickups_box.visible = bool(self.pickups.text)
         self.demo_box.visible = bool(s.get("demo"))
         self.mine_box.visible = mine
         self.selling_title.text = "You're selling" if mine else btm.first_name(s["name"]) + " is selling"

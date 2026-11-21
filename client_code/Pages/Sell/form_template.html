@@ -78,6 +78,11 @@
               <button type="button" data-amount="75" anvil:on-dom:click="self.amount_click">$75</button>
               <button type="button" data-amount="100" anvil:on-dom:click="self.amount_click">$100</button>
             </div>
+            <div class="sl-hint" anvil:name="hint_box" aria-live="polite">
+              <i class="ic ic-sparkle" aria-hidden="true"></i>
+              <anvil-component type="Label" name="hint_text" prop:role='["sl-hint-text"]'></anvil-component>
+              <anvil-component type="Button" name="hint_use" prop:role='["btn", "btn-sm", "btn-accent"]'></anvil-component>
+            </div>
           </div>
           <details class="sl-more" anvil:dom-node="more">
             <summary><i class="ic ic-plus"></i>Add a note (optional)</summary>

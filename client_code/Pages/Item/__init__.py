@@ -112,7 +112,9 @@ class Item(ItemTemplate):
         state.set_attr(self.seller_link, "href", router.href("seller", s["key"]))
         self.seller_initials.text = state.initials(s["name"])
         self.seller_name.text = s["name"]
-        self.seller_facts.text = "Member since %s · %d sold · %d for sale" % (btm.long_date(s.get("since")), s["sold"], s["active"])
+        facts = "Member since %s · %d sold · %d for sale" % (btm.long_date(s.get("since")), s["sold"], s["active"])
+        record = btm.pickups(s, short=True)
+        self.seller_facts.text = facts + (" · " + record if record else "")
         self.map_box.visible = bool(it.get("map"))
         if it.get("map"):
             self.area_map.show_area(it["map"]["lat"], it["map"]["lng"], it.get("area") or "")

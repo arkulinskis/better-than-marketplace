@@ -11,12 +11,14 @@ A local marketplace for adults where selling takes about 30 seconds: snap a phot
 - **Landing page:** "Snap it. Name it. Sold.", a phone-camera hero, how it works, a live strip of what's for sale, "why it's better", FAQ.
 - **Browse** (`#browse`, `#browse/<words>`): photo cards with price stickers, nearest first when a spot is known (the member's selling spot, or a spot picked in this browser: map, "use my location" or place search). Filters: Free, Under $20, New today; distance 1-25 km or anywhere; sort nearest / newest / cheapest; search; Show more.
 - **Item** (`#item/<key>`): swipeable photos (tap to zoom), price, area + distance, a ~1 km circle on the map, the seller (member since, sold / for sale), the seller's note, safety tips, more from the seller, Share.
-- **Seller page** (`#seller/<key>`): what they sell now and what they sold in the last 30 days.
+- **Seller page** (`#seller/<key>`): what they sell now and what they sold in the last 30 days, plus their pickup record ("Showed up to 7 of 7 pickups").
 - Sign-up with email, password and **date of birth (18+ only)**, the feedback form, Privacy & Terms (`#legal`).
 
 **For members:**
-- **Sell** (`#sell`): first-time setup (18+ check if needed, "where do you sell from"), then a big camera button. Photos are shrunk on the phone and upload while you type; only a name is required, price is optional (or Free / Make an offer; quick $5-$100 chips), note optional. Confetti, then "Snap the next thing" for rapid posting. `#sell/<key>` edits (photos, cover, name, price, note).
+- **Sell** (`#sell`): first-time setup (18+ check if needed, "where do you sell from"), then a big camera button. Photos are shrunk on the phone and upload while you type; only a name is required, price is optional (or Free / Make an offer; quick $5-$100 chips, and a **price helper**: "Similar near you: 2 sold for $15-$40" from the app's own listings within 25 km, with a one-tap "Use $20"), note optional. Confetti, then "Snap the next thing" for rapid posting. `#sell/<key>` edits (photos, cover, name, price, note).
 - **Chats** (`#messages`): one chat per item and buyer, quick replies ("Is it still available?", "Would you take $68?"), live updates every 4 s, unread badge on the Chats tab, All / Buying / Selling.
+  - **Still-available auto-answer:** a new chat that opens with "Is this still available?" gets an instant note from the item's live status (for sale / reserved).
+  - **Pickup plan:** propose a day, time and public place ("Find a safe spot nearby" lists police stations, libraries, metro stations and malls around the item, from OpenStreetMap); the other side confirms; On my way / Running late / Can't make it; afterwards "We met" / "They didn't show" builds each member's pickup record (sellers can mark the item sold right there).
 - **My stuff** (`#mine`): for sale / reserved / sold with views and chats, one-tap Reserve / Sold / Back on sale, Bump to the top (once a day), edit, delete; Saved items (hearts).
 - Save (heart) anywhere, report a listing, profile with selling spot and public page link.
 
